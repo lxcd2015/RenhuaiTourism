@@ -22,6 +22,8 @@ namespace WebApi
                         var path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,"bin\\WebApi.xml");
                         c.IncludeXmlComments(path);
 
+                        var path2 = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory, "bin\\ViewModel.xml");
+                        c.IncludeXmlComments(path2);
                     })
                 .EnableSwaggerUi("apis/{*assetPath}",
                     c => { c.InjectJavaScript(Assembly.GetExecutingAssembly(), @"WebApi.Swagger.translator.js"); }); ;

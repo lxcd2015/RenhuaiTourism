@@ -13,5 +13,8 @@ namespace Model
         }
 
         public DbSet<HomePage> HomePages { get; set; }
+        public DbSet<Introduce> Introduces { get; set; }
+        public DbSet<Message> Messages { get; set; }
+        
     }
 }

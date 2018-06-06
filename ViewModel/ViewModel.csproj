@@ -42,16 +42,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\RTEntity.cs" />
     <Compile Include="HomePage\HomePageInput.cs" />
     <Compile Include="Introduce\IntroduceInput.cs" />
     <Compile Include="Message\AddMessageInput.cs" />
     <Compile Include="Message\MessageForView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WisdomGuide\DrawingMapInput.cs" />
-    <Compile Include="WisdomGuide\DrawingMapOutput.cs" />
-    <Compile Include="WisdomGuide\TouristSpotInfo.cs" />
-    <Compile Include="WisdomGuide\TouristSpotList.cs" />
-    <Compile Include="WisdomGuide\TouristSpotType.cs" />
+    <Compile Include="ViewSpotDetailOutput.cs" />
+    <Compile Include="WisdomGuide\AddOrEditViewSpotDto.cs" />
+    <Compile Include="WisdomGuide\ChangeMapInput.cs" />
+    <Compile Include="WisdomGuide\ViewSpotInfoOutput.cs" />
+    <Compile Include="WisdomGuide\ViewSpotVideoDto.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Model\Model.csproj">

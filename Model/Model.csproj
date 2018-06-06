@@ -53,10 +53,18 @@
     <Compile Include="Data\Introduce.cs" />
     <Compile Include="Data\Message.cs" />
     <Compile Include="Data\MessageType.cs" />
+    <Compile Include="Data\WisdomGuide.cs" />
+    <Compile Include="Data\WisdomGuideMap.cs" />
+    <Compile Include="Data\WisdomGuideViewSpot.cs" />
+    <Compile Include="Data\WisdomGuideViewSpotVideo.cs" />
     <Compile Include="DbContext.cs" />
     <Compile Include="Migrations\201806061339357_update1.cs" />
     <Compile Include="Migrations\201806061339357_update1.Designer.cs">
       <DependentUpon>201806061339357_update1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806061546515_Update2.cs" />
+    <Compile Include="Migrations\201806061546515_Update2.Designer.cs">
+      <DependentUpon>201806061546515_Update2.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,6 +76,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201806061339357_update1.resx">
       <DependentUpon>201806061339357_update1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806061546515_Update2.resx">
+      <DependentUpon>201806061546515_Update2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

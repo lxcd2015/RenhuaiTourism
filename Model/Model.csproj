@@ -53,6 +53,10 @@
     <Compile Include="Data\Introduce.cs" />
     <Compile Include="Data\Message.cs" />
     <Compile Include="Data\MessageType.cs" />
+    <Compile Include="Data\TouristInformation.cs" />
+    <Compile Include="Data\TouristInformationDetail.cs" />
+    <Compile Include="Data\TouristInformationType.cs" />
+    <Compile Include="Data\TouristRoute.cs" />
     <Compile Include="Data\WisdomGuide.cs" />
     <Compile Include="Data\WisdomGuideMap.cs" />
     <Compile Include="Data\WisdomGuideViewSpot.cs" />
@@ -65,6 +69,10 @@
     <Compile Include="Migrations\201806061546515_Update2.cs" />
     <Compile Include="Migrations\201806061546515_Update2.Designer.cs">
       <DependentUpon>201806061546515_Update2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201806071427070_Update3.cs" />
+    <Compile Include="Migrations\201806071427070_Update3.Designer.cs">
+      <DependentUpon>201806071427070_Update3.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -79,6 +87,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806061546515_Update2.resx">
       <DependentUpon>201806061546515_Update2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806071427070_Update3.resx">
+      <DependentUpon>201806071427070_Update3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

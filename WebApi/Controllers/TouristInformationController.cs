@@ -26,7 +26,7 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         public void Add(AddOrEditTouristInformation input)
         {
-
+            bll.Add(input);
         }
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 删除
+        /// 删除旅游信息
         /// </summary>
         /// <param name="input"></param>
         public void Delete(RTEntity<int> input)
@@ -52,6 +52,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public AddOrEditTouristInformation GetInformationForEdit(RTEntity<int> input)
         {
             return bll.GetInformationForEdit(input);
@@ -62,6 +63,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public List<InformationForView> GetList(RTEntity<TouristInformationType> input)
         {
             return bll.GetList(input);
@@ -72,6 +74,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public InformationDetail GetDetail(RTEntity<int> input)
         {
             return bll.GetDetail(input);

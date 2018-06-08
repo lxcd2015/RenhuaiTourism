@@ -34,6 +34,7 @@ namespace WebApi.Controllers
         /// 获取投诉列表
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public List<MessageForView> GetComplaintList()
         {
             return messageService.GetComplaintList();
@@ -43,6 +44,7 @@ namespace WebApi.Controllers
         /// 获取建议列表
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public List<MessageForView> GetAdviseList()
         {
             return messageService.GetAdviseList();

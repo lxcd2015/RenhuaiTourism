@@ -3,6 +3,7 @@ using Model.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace BLL
 {
     public class TouristRouteService
     {
+        private string imgPath = ResourcePath.TouristRoute;
+
         /// <summary>
         /// 添加旅游线路信息
         /// </summary>
@@ -22,7 +25,7 @@ namespace BLL
             var route = new TouristRoute
             {
                 Content = input.Content,
-                ImgUrl = input.ImgUrl
+                ImgUrl = Path.Combine(imgPath,input.ImgUrl)
             };
 
             using (var db = new RTDbContext())
@@ -43,7 +46,7 @@ namespace BLL
                 var routes= db.TouristRoutes.FirstOrDefault(p=>p.Id==input.Id);
                 if (routes != null)
                 {
-                    routes.ImgUrl = input.ImgUrl;
+                    routes.ImgUrl = Path.Combine(imgPath, input.ImgUrl);
                     routes.Content = input.Content;
                     db.Entry(routes).State = EntityState.Modified;
                     db.SaveChanges();

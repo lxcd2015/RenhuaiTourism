@@ -3,6 +3,7 @@ using Model.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,8 @@ namespace BLL
 {
     public class TouristInformationService
     {
+        private string imgPath = ResourcePath.TouristInformation;
+
         /// <summary>
         /// 添加旅游信息
         /// </summary>
@@ -24,7 +27,7 @@ namespace BLL
                 var information = new TouristInformation
                 {
                     Distance = input.Distance,
-                    ImgUrl = input.ImgUrl,
+                    ImgUrl =Path.Combine(imgPath,input.ImgUrl),
                     Name = input.Name,
                     Phone = input.Phone,
                     Price = input.Price,
@@ -58,8 +61,8 @@ namespace BLL
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
                 if (information == null)
                     return;
-                information.ImgUrl = input.ImgUrl;
-                information.Name = input.ImgUrl;
+                information.ImgUrl = Path.Combine(imgPath,input.ImgUrl);
+                information.Name = input.Name;
                 information.Phone = input.Phone;
                 information.Price = input.Price;
                 information.Distance = input.Distance;

@@ -17,7 +17,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 编辑仁怀简介
+        /// 编辑酒都简介
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -27,7 +27,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取仁怀简介
+        /// 获取酒都简介
         /// </summary>
         /// <returns></returns>
         public IntroduceInput Detail()

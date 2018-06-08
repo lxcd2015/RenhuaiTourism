@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,6 +17,7 @@ namespace BLL
 {
     public class WisdomGuideService
     {
+        private string imgPath = ResourcePath.WisdomGuide;
         /// <summary>
         /// 获取智慧导览Id
         /// </summary>
@@ -39,6 +41,7 @@ namespace BLL
         public void ChangeMap(ChangeMapInput input)
         {
             if (input.ImgUrl == null || input.ImgUrl == "") return;
+            input.ImgUrl = Path.Combine(imgPath, input.ImgUrl);
             //using (TransactionScope tran = new TransactionScope())
             //{
                 using (var db = new RTDbContext())
@@ -49,7 +52,7 @@ namespace BLL
                     if (map != null)
                     {
                         map.WisdomGuideId = wisdomGuideId;
-                        map.ImgUrl = input.ImgUrl;
+                        map.ImgUrl =input.ImgUrl;
                         db.Entry(map).State = EntityState.Modified;
                     }
                     else
@@ -79,7 +82,7 @@ namespace BLL
                     var model = new WisdomGuideViewSpot
                     {
                         Content = input.Content,
-                        ImgUrl = input.ImgUrl,
+                        ImgUrl = Path.Combine(imgPath,input.ImgUrl),
                         ViewSpotDescribe = input.ViewSpotDescribe,
                         ViewSpotName = input.ViewSpotName,
                         WisdomGuideId = wisdomGuideId
@@ -93,7 +96,7 @@ namespace BLL
                         {
                             db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                             {
-                                ImgUrl = item.ImgUrl,
+                                ImgUrl =Path.Combine(imgPath,item.ImgUrl),
                                 VideoName = item.VideoName,
                                 VideoUrl = item.VideoUrl,
                                 WisdomGuideViewSpotId = ViewSpotId
@@ -120,7 +123,7 @@ namespace BLL
                     if (model == null) return;
 
                     model.Content = input.Content;
-                    model.ImgUrl = input.ImgUrl;
+                    model.ImgUrl = Path.Combine(imgPath,input.ImgUrl);
                     model.ViewSpotDescribe = input.ViewSpotDescribe;
                     model.ViewSpotName = input.ViewSpotName;
                     model.WisdomGuideId = wisdomGuideId;
@@ -143,7 +146,7 @@ namespace BLL
                         {
                             db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                             {
-                                ImgUrl = item.ImgUrl,
+                                ImgUrl =Path.Combine(imgPath,item.ImgUrl),
                                 VideoName = item.VideoName,
                                 VideoUrl = item.VideoUrl,
                                 WisdomGuideViewSpotId = ViewSpotId

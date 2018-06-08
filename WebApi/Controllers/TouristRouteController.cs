@@ -16,7 +16,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 添加旅游线路信息
+        /// 添加旅游线路
         /// </summary>
         /// <param name="input"></param>
         public void Add(AddOrEditTouristRouteInput input) {
@@ -24,7 +24,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 编辑旅游线路信息
+        /// 编辑旅游线路
         /// </summary>
         /// <param name="input"></param>
         public void Edit(AddOrEditTouristRouteInput input) {
@@ -32,9 +32,10 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取旅游线路信息列表
+        /// 获取旅游线路列表
         /// </summary>
         /// <returns></returns>
+        [HttpPost]
         public List<TouristRouteForView> GetList() {
            return bll.GetList();
         }
@@ -48,10 +49,11 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 根据Id获取单个旅游线路信息
+        /// 根据Id获取单个旅游线路
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public TouristRouteForView GetTouristRoute(RTEntity<int> input) {
             return bll.GetTouristRoute(input);
         }

@@ -46,6 +46,7 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
+        [HttpPost]
         public AddOrEditViewSpotDto GetViewSpotForEdit(RTEntity<string> input) {
             return wisdomGuideService.GetViewSpotForEdit(input);
         }
@@ -69,6 +70,7 @@ namespace WebApi.Controllers
         /// <summary>
         /// 获取视频列表
         /// </summary>
+        [HttpPost]
         public List<ViewSpotVideoDto> GetVideoList(RTEntity<string> input) {
             return wisdomGuideService.GetVideoList(input);
         }

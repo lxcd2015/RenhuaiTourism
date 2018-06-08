@@ -182,6 +182,7 @@ namespace BLL
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewSpot.Id)?.ToList();
                 if (videoList != null && videoList.Count != 0)
                 {
+                    result.VideoList = new List<ViewSpotVideoDto>();
                     videoList.ForEach(item =>
                     {
                         result.VideoList.Add(new ViewSpotVideoDto

@@ -3,9 +3,11 @@ using Model.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ViewModel.Common;
 using ViewModel.Introduce;
 
 namespace BLL
@@ -20,10 +22,11 @@ namespace BLL
         /// <returns></returns>
         public bool Edit(IntroduceInput input)
         {
+            var imgPath = ResourcePath.Introduce;
             var model = new Introduce
             {
                 Title = input.Title,
-                ImgUrl = input.ImgUrl,
+                ImgUrl = Path.Combine(imgPath,input.ImgUrl),
                 Content = input.Content
             };
 

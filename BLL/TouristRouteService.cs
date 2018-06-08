@@ -85,7 +85,7 @@ namespace BLL
         {
             using (var db = new RTDbContext())
             {
-                var route = db.TouristRoutes.FirstOrDefault(p => p.Id == input.Id);
+                var route = db.TouristRoutes.FirstOrDefault(p => p.Id == input.Parameter);
                 if (route != null)
                 {
                     db.TouristRoutes.Remove(route);
@@ -104,7 +104,7 @@ namespace BLL
             var result = new TouristRouteForView();
             using (var db = new RTDbContext())
             {
-                var route = db.TouristRoutes.FirstOrDefault(p=>p.Id==input.Id);
+                var route = db.TouristRoutes.FirstOrDefault(p=>p.Id==input.Parameter);
                 if (route != null)
                 {
                     result.Id = route.Id;

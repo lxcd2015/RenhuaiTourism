@@ -110,7 +110,7 @@ namespace BLL
             var result = new AddOrEditTouristInformation();
             using (var db = new RTDbContext())
             {
-                var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
+                var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Parameter);
                 if (information == null) return null;
                 result.Distance = information.Distance;
                 result.Id = information.Id;
@@ -139,7 +139,7 @@ namespace BLL
             var result = new List<InformationForView>();
             using (var db = new RTDbContext())
             {
-                var list = db.TouristInformations.Where(p => p.Type == input.Id);
+                var list = db.TouristInformations.Where(p => p.Type == input.Parameter);
                 if (list != null && list.Count() != 0)
                 {
                     foreach (var item in list)
@@ -169,7 +169,7 @@ namespace BLL
             var result = new InformationDetail();
             using (var db = new RTDbContext())
             {
-                var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
+                var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Parameter);
                 if (information == null) return null;
                 if (information.Type != TouristInformationType.Hotel) return null;
                 result.ImgUrl = information.ImgUrl;
@@ -177,7 +177,7 @@ namespace BLL
                 result.Name = information.Name;
                 result.Phone = information.Phone;
                 result.Price = information.Price;
-                var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == input.Id);
+                var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == input.Parameter);
                 if (detail == null) return null;
                 result.Content = detail.Content;
             }

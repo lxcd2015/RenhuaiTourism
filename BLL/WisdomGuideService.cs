@@ -168,7 +168,7 @@ namespace BLL
             var result = new AddOrEditViewSpotDto();
             using (var db = new RTDbContext())
             {
-                var viewSpot = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Id);
+                var viewSpot = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewSpot == null) return null;
                 result.Id = viewSpot.Id;
                 result.Content = viewSpot.Content;
@@ -203,7 +203,7 @@ namespace BLL
             var result = new ViewSpotInfoOutput();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Id);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewPort == null) return null;
                 result.ViewSpotName = viewPort.ViewSpotName;
                 result.ViewSpotDescribe = viewPort.ViewSpotDescribe;
@@ -236,7 +236,7 @@ namespace BLL
             var result = new ViewSpotDetailOutput();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Id);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewPort == null) return null;
                 result.Content = viewPort.Content;
                 result.ImgUrl = viewPort.ImgUrl;
@@ -253,7 +253,7 @@ namespace BLL
             var result = new List<ViewSpotVideoDto>();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Id);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewPort == null) return result;
 
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id)?.ToList();

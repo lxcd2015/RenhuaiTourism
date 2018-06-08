@@ -148,6 +148,7 @@
     <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\IntroduceController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
+    <Compile Include="Controllers\TouristInformationController.cs" />
     <Compile Include="Controllers\TouristRouteController.cs" />
     <Compile Include="Controllers\WisdomGuideController.cs" />
     <Compile Include="Global.asax.cs">
@@ -160,20 +161,6 @@
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <None Include="packages.config" />
-    <Content Include="SwaggerUI\css\screen.css" />
-    <Content Include="SwaggerUI\images\pet_store_api.png" />
-    <Content Include="SwaggerUI\images\wordnik_api.png" />
-    <Content Include="SwaggerUI\index.html" />
-    <Content Include="SwaggerUI\lib\backbone-min.js" />
-    <Content Include="SwaggerUI\lib\handlebars.runtime-1.0.0.beta.6.js" />
-    <Content Include="SwaggerUI\lib\jquery.ba-bbq.min.js" />
-    <Content Include="SwaggerUI\lib\jquery.min.js" />
-    <Content Include="SwaggerUI\lib\jquery.slideto.min.js" />
-    <Content Include="SwaggerUI\lib\jquery.wiggle.min.js" />
-    <Content Include="SwaggerUI\lib\swagger.js" />
-    <Content Include="SwaggerUI\lib\underscore-min.js" />
-    <Content Include="SwaggerUI\swagger-ui.js" />
-    <Content Include="SwaggerUI\swagger-ui.min.js" />
     <EmbeddedResource Include="Swagger\translator.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -182,7 +169,6 @@
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>
-    <Content Include="SwaggerUI\lib\.DS_Store" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
   </ItemGroup>
   <ItemGroup>
@@ -194,6 +180,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{0419b9ec-e415-4f24-bdb6-cfa0efd06345}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Model\Model.csproj">
+      <Project>{e18a4726-f9b8-40cd-a8ce-003e629b288c}</Project>
+      <Name>Model</Name>
     </ProjectReference>
     <ProjectReference Include="..\ViewModel\ViewModel.csproj">
       <Project>{18d83ff3-cb4b-4732-9881-9655c6dfeba1}</Project>

@@ -33,7 +33,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,6 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AddressConsts.cs" />
+    <Compile Include="Common\ConfigurationInfo.cs" />
+    <Compile Include="Common\ResourcePath.cs" />
     <Compile Include="Common\RTEntity.cs" />
     <Compile Include="HomePage\HomePageInput.cs" />
     <Compile Include="Introduce\IntroduceInput.cs" />

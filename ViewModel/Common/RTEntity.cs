@@ -8,6 +8,9 @@ namespace ViewModel.Common
 {
     public class RTEntity<T>
     {
-        public T Id { get; set; }
+        /// <summary>
+        /// 输入参数
+        /// </summary>
+        public T Parameter { get; set; }
     }
 }

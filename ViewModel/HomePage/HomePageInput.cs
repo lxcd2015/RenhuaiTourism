@@ -9,17 +9,17 @@ namespace ViewModel.HomePage
     {
 
         /// <summary>
-        /// 第一个位置图片
+        /// 第一个位置图片的名字
         /// </summary>
         public string FirstImgUrl { get; set; }
 
         /// <summary>
-        /// 第二个位置图片（轮播图片）
+        /// 第二个位置图片的名字（轮播图片）
         /// </summary>
         public List<string> SecondImgUrlList { get; set; }
 
         /// <summary>
-        /// 第三个位置图片
+        /// 第三个位置图片的名字
         /// </summary>
         public string ThirdImgUrl { get; set; }
     }

@@ -18,7 +18,7 @@ namespace WebApi
             GlobalConfiguration.Configuration
                 .EnableSwagger(c =>
                     {
-                        c.SingleApiVersion("v1", "APP");
+                        c.SingleApiVersion("v1", "仁怀旅游接口文档");
                         var path = Path.Combine(System.AppDomain.CurrentDomain.BaseDirectory,"bin\\WebApi.xml");
                         c.IncludeXmlComments(path);
 

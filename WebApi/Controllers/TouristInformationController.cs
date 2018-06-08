@@ -59,7 +59,7 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
-        /// 获取旅游信息列表
+        /// 获取旅游信息列表（1：酒店；2：餐饮；3：特产；4：旅行社；5：车辆服务；6：旅游购物）
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>

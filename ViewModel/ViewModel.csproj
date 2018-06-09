@@ -64,6 +64,7 @@
     <Compile Include="ViewSpotDetailOutput.cs" />
     <Compile Include="WisdomGuide\AddOrEditViewSpotDto.cs" />
     <Compile Include="WisdomGuide\ChangeMapInput.cs" />
+    <Compile Include="WisdomGuide\ViewSpotInfoInput.cs" />
     <Compile Include="WisdomGuide\ViewSpotInfoOutput.cs" />
     <Compile Include="WisdomGuide\ViewSpotVideoDto.cs" />
   </ItemGroup>

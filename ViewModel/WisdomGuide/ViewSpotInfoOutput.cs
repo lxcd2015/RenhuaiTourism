@@ -18,10 +18,25 @@ namespace ViewModel.WisdomGuide
         /// </summary>
         public string ViewSpotName { get; set; }
 
+        ///// <summary>
+        ///// 景点描述（目前用于距离描述）
+        ///// </summary>
+        //public string ViewSpotDescribe { get; set; }
+
         /// <summary>
-        /// 景点描述（目前用于距离描述）
+        /// 距离
         /// </summary>
-        public string ViewSpotDescribe { get; set; }
+        public double Distance { get; set; }
+
+        /// <summary>
+        /// 距离描述
+        /// </summary>
+        public string DistanceDescription { get; set; }
+
+        /// <summary>
+        /// 位置描述
+        /// </summary>
+        public string Position { get; set; }
 
         /// <summary>
         /// 是否有更多视频

@@ -54,7 +54,7 @@ namespace WebApi.Controllers
         /// <summary>
         /// 获取地图景点简介信息
         /// </summary>
-        public ViewSpotInfoOutput ViewSpotInfo(RTEntity<string> input) {
+        public ViewSpotInfoOutput ViewSpotInfo(ViewSpotInfoInput input) {
            return wisdomGuideService.ViewSpotInfo(input);
         }
 

@@ -23,9 +23,19 @@ namespace Model.Data
         public string ViewSpotName { get; set; }
 
         /// <summary>
-        /// 景点描述（目前用于距离描述）
+        /// 位置描述
         /// </summary>
-        public string ViewSpotDescribe { get; set; }
+        public string Position { get; set; }
+
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public double Longitude { get; set; }
+
+        /// <summary>
+        /// 维度
+        /// </summary>
+        public double Latitude { get; set; }
 
         /// <summary>
         /// 图片地址

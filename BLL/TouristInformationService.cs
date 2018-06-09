@@ -157,16 +157,21 @@ namespace BLL
                 {
                     foreach (var item in list)
                     {
-                        double distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, item.Longitude, item.Latitude);
+                        double distance = 0;
                         string distanceDescription = "";
-                        if (distance > 1000)
+                        if (item.Type == TouristInformationType.Hotel)
                         {
-                            distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                            LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, item.Longitude, item.Latitude);
+                            if (distance > 1000)
+                            {
+                                distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                            }
+                            else
+                            {
+                                distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                            }
                         }
-                        else
-                        {
-                            distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
-                        }
+
                         result.Add(new InformationForView
                         {
                             Id = item.Id,
@@ -201,17 +206,20 @@ namespace BLL
                 if (information == null) return null;
                 if (information.Type != TouristInformationType.Hotel) return null;
 
-                double distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, information.Longitude, information.Latitude);
+                double distance = 0;
                 string distanceDescription = "";
-                if (distance > 1000)
+                if (information.Type == TouristInformationType.Hotel)
                 {
-                    distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                    distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, information.Longitude, information.Latitude);
+                    if (distance > 1000)
+                    {
+                        distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                    }
+                    else
+                    {
+                        distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                    }
                 }
-                else
-                {
-                    distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
-                }
-
                 result.ImgUrl = information.ImgUrl;
                 //result.Distance = information.Distance;
                 result.Position = information.Position;

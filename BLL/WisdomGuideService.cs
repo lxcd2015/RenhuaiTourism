@@ -1,14 +1,10 @@
-﻿using Model;
+﻿using BLL.Common;
+using Model;
 using Model.Data;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
-using System.Data.OleDb;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 using ViewModel;
 using ViewModel.Common;
 using ViewModel.WisdomGuide;
@@ -83,7 +79,10 @@ namespace BLL
                     {
                         Content = input.Content,
                         ImgUrl = Path.Combine(imgPath,input.ImgUrl),
-                        ViewSpotDescribe = input.ViewSpotDescribe,
+                        //ViewSpotDescribe = input.ViewSpotDescribe,
+                        Position=input.Position,
+                        Longitude=input.Longitude,
+                        Latitude=input.Latitude,
                         ViewSpotName = input.ViewSpotName,
                         WisdomGuideId = wisdomGuideId
                     };
@@ -116,46 +115,49 @@ namespace BLL
         {
             //using (TransactionScope tran = new TransactionScope())
             //{
-                using (var db = new RTDbContext())
+            using (var db = new RTDbContext())
+            {
+                int wisdomGuideId = GetWisdomGuideId(db);
+                var model = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
+                if (model == null) return;
+
+                model.Content = input.Content;
+                model.ImgUrl = Path.Combine(imgPath, input.ImgUrl);
+                //model.ViewSpotDescribe = input.ViewSpotDescribe;
+                model.Position = input.Position;
+                model.Longitude = input.Longitude;
+                model.Latitude = input.Latitude;
+                model.ViewSpotName = input.ViewSpotName;
+                model.WisdomGuideId = wisdomGuideId;
+                db.Entry(model).State = EntityState.Modified;
+
+                int ViewSpotId = model.Id;
+
+                var list = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == ViewSpotId)?.ToList();
+                if (list != null && list.Count() != 0)
                 {
-                    int wisdomGuideId = GetWisdomGuideId(db);
-                    var model = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
-                    if (model == null) return;
-
-                    model.Content = input.Content;
-                    model.ImgUrl = Path.Combine(imgPath,input.ImgUrl);
-                    model.ViewSpotDescribe = input.ViewSpotDescribe;
-                    model.ViewSpotName = input.ViewSpotName;
-                    model.WisdomGuideId = wisdomGuideId;
-                    db.Entry(model).State = EntityState.Modified;
-
-                    int ViewSpotId = model.Id;
-
-                    var list = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == ViewSpotId)?.ToList();
-                    if (list != null && list.Count() != 0)
+                    for (int i = 0; i < list.Count; i++)
                     {
-                        for (int i = 0; i < list.Count; i++)
-                        {
-                            db.WisdomGuideViewSpotVideos.Remove(list[i]);
-                        }
+                        db.WisdomGuideViewSpotVideos.Remove(list[i]);
                     }
-
-                    if (input.VideoList != null && input.VideoList.Count != 0)
-                    {
-                        input.VideoList.ForEach(item =>
-                        {
-                            db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
-                            {
-                                ImgUrl =Path.Combine(imgPath,item.ImgUrl),
-                                VideoName = item.VideoName,
-                                VideoUrl = item.VideoUrl,
-                                WisdomGuideViewSpotId = ViewSpotId
-                            });
-                        });
-                    }
-
-                    db.SaveChanges();
                 }
+
+                if (input.VideoList != null && input.VideoList.Count != 0)
+                {
+                    input.VideoList.ForEach(item =>
+                    {
+                        db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
+                        {
+                            ImgUrl = Path.Combine(imgPath, item.ImgUrl),
+                            VideoName = item.VideoName,
+                            VideoUrl = item.VideoUrl,
+                            WisdomGuideViewSpotId = ViewSpotId
+                        });
+                    });
+                }
+
+                db.SaveChanges();
+            }
             //    tran.Complete();
             //}
         }
@@ -176,7 +178,10 @@ namespace BLL
                 result.Id = viewSpot.Id;
                 result.Content = viewSpot.Content;
                 result.ImgUrl = viewSpot.ImgUrl;
-                result.ViewSpotDescribe = viewSpot.ViewSpotDescribe;
+                //result.ViewSpotDescribe = viewSpot.ViewSpotDescribe;
+                result.Position = viewSpot.Position;
+                result.Longitude = viewSpot.Longitude;
+                result.Latitude = viewSpot.Latitude;
                 result.ViewSpotName = viewSpot.ViewSpotName;
                 result.WisdomGuideId = viewSpot.WisdomGuideId;
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewSpot.Id)?.ToList();
@@ -201,16 +206,36 @@ namespace BLL
         /// <summary>
         /// 获取地图景点简介信息
         /// </summary>
-        public ViewSpotInfoOutput ViewSpotInfo(RTEntity<string> input)
+        public ViewSpotInfoOutput ViewSpotInfo(ViewSpotInfoInput input)
         {
             if (input == null) return null;
             var result = new ViewSpotInfoOutput();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.ViewSpotName);
                 if (viewPort == null) return null;
+
+                #region 根据经纬度计算距离
+                double distance = 0;
+                string distanceDescription = "";
+
+                distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, viewPort.Longitude, viewPort.Latitude);
+                if (distance > 1000)
+                {
+                    distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                }
+                else
+                {
+                    distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                }
+                #endregion
+
                 result.ViewSpotName = viewPort.ViewSpotName;
-                result.ViewSpotDescribe = viewPort.ViewSpotDescribe;
+                //result.ViewSpotDescribe = viewPort.ViewSpotDescribe;
+                result.Position = viewPort.Position;
+                result.Distance = distance;
+                result.DistanceDescription = distanceDescription;
+
                 var map = db.WisdomGuideMaps.FirstOrDefault(p => p.WisdomGuideId == viewPort.WisdomGuideId);
                 if (map != null) result.MapImgUrl = map.ImgUrl;
 

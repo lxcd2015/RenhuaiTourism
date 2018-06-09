@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using BLL.Common;
+using Model;
 using Model.Data;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,9 @@ namespace BLL
                 {
                     //Distance = input.Distance,
                     ImgUrl =Path.Combine(imgPath,input.ImgUrl),
+                    Position=input.Position,
+                    Latitude=input.Latitude,
+                    Longitude=input.Longitude,
                     Name = input.Name,
                     Phone = input.Phone,
                     Price = input.Price,
@@ -62,6 +66,9 @@ namespace BLL
                 if (information == null)
                     return;
                 information.ImgUrl = Path.Combine(imgPath,input.ImgUrl);
+                information.Position = input.Position;
+                information.Longitude = input.Longitude;
+                information.Latitude = input.Latitude;
                 information.Name = input.Name;
                 information.Phone = input.Phone;
                 information.Price = input.Price;
@@ -118,6 +125,9 @@ namespace BLL
                 //result.Distance = information.Distance;
                 result.Id = information.Id;
                 result.ImgUrl = information.ImgUrl;
+                result.Position = information.Position;
+                result.Longitude = information.Longitude;
+                result.Latitude = information.Latitude;
                 result.Name = information.Name;
                 result.Phone = information.Phone;
                 result.Price = information.Price;
@@ -137,16 +147,26 @@ namespace BLL
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public List<InformationForView> GetList(RTEntity<TouristInformationType> input)
+        public List<InformationForView> GetList(GetInformationListInput input)
         {
             var result = new List<InformationForView>();
             using (var db = new RTDbContext())
             {
-                var list = db.TouristInformations.Where(p => p.Type == input.Parameter);
+                var list = db.TouristInformations.Where(p => p.Type == input.Type);
                 if (list != null && list.Count() != 0)
                 {
                     foreach (var item in list)
                     {
+                        double distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, item.Longitude, item.Latitude);
+                        string distanceDescription = "";
+                        if (distance > 1000)
+                        {
+                            distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                        }
+                        else
+                        {
+                            distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                        }
                         result.Add(new InformationForView
                         {
                             Id = item.Id,
@@ -155,9 +175,14 @@ namespace BLL
                             Name = item.Name,
                             Phone = item.Phone,
                             Price = item.Price,
+                            Distance = distance,
+                            DistanceDescription = distanceDescription,
+                            Position = item.Position,
                         });
                     }
+                    result = result.OrderBy(p=>p.Distance).ToList();
                 }
+                
             }
             return result;
         }
@@ -167,24 +192,41 @@ namespace BLL
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public InformationDetail GetDetail(RTEntity<int> input)
+        public InformationDetail GetDetail(GetInformationDetail input)
         {
             var result = new InformationDetail();
             using (var db = new RTDbContext())
             {
-                var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Parameter);
+                var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
                 if (information == null) return null;
                 if (information.Type != TouristInformationType.Hotel) return null;
+
+                double distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, information.Longitude, information.Latitude);
+                string distanceDescription = "";
+                if (distance > 1000)
+                {
+                    distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                }
+                else
+                {
+                    distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                }
+
                 result.ImgUrl = information.ImgUrl;
                 //result.Distance = information.Distance;
+                result.Position = information.Position;
+                result.Distance = distance;
+                result.DistanceDescription = distanceDescription;
                 result.Name = information.Name;
                 result.Phone = information.Phone;
                 result.Price = information.Price;
-                var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == input.Parameter);
+
+                var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == input.Id);
                 if (detail == null) return null;
                 result.Content = detail.Content;
             }
             return result;
         }
+
     }
 }

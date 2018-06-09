@@ -22,9 +22,19 @@ namespace ViewModel.TouristInformation
         public string ImgUrl { get; set; }
 
         /// <summary>
-        /// 距离描述
+        /// 距离值（单位米）
         /// </summary>
-        public string Distance { get; set; }
+        public double Distance { get; set; }
+
+        /// <summary>
+        /// 距离描述（单位米/千米）
+        /// </summary>
+        public string DistanceDescription { get; set; }
+
+        /// <summary>
+        /// 位置描述
+        /// </summary>
+        public string Position { get; set; }
 
         /// <summary>
         /// 价格描述

@@ -31,6 +31,21 @@ namespace ViewModel.TouristInformation
         //public string Distance { get; set; }
 
         /// <summary>
+        /// 位置描述
+        /// </summary>
+        public string Position { get; set; }
+
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public double Longitude { get; set; }
+
+        /// <summary>
+        /// 维度
+        /// </summary>
+        public double Latitude { get; set; }
+
+        /// <summary>
         /// 价格描述
         /// </summary>
         public string Price { get; set; }

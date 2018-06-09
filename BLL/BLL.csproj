@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\LongitudeAndLatitudeToDistance.cs" />
     <Compile Include="HomePageService.cs" />
     <Compile Include="IntroduceService.cs" />
     <Compile Include="MessageService.cs" />

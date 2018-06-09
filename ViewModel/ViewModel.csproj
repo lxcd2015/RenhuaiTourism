@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <DocumentationFile>bin\ViewModel.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -54,6 +55,8 @@
     <Compile Include="Message\MessageForView.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TouristInformation\AddOrEditTouristInformation.cs" />
+    <Compile Include="TouristInformation\GetInformationDetail.cs" />
+    <Compile Include="TouristInformation\GetInformationListInput.cs" />
     <Compile Include="TouristInformation\InformationDetail.cs" />
     <Compile Include="TouristInformation\InformationForView.cs" />
     <Compile Include="TouristRoute\AddTouristRouteInput.cs" />

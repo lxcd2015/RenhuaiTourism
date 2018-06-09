@@ -64,7 +64,7 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public List<InformationForView> GetList(RTEntity<TouristInformationType> input)
+        public List<InformationForView> GetList(GetInformationListInput input)
         {
             return bll.GetList(input);
         }
@@ -75,7 +75,7 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public InformationDetail GetDetail(RTEntity<int> input)
+        public InformationDetail GetDetail(GetInformationDetail input)
         {
             return bll.GetDetail(input);
         }

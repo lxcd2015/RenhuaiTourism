@@ -28,7 +28,7 @@ namespace ViewModel.TouristInformation
         /// <summary>
         /// 距离描述
         /// </summary>
-        public string Distance { get; set; }
+        //public string Distance { get; set; }
 
         /// <summary>
         /// 价格描述

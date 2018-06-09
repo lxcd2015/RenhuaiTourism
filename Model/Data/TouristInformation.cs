@@ -26,10 +26,25 @@ namespace Model.Data
         /// </summary>
         public string ImgUrl { get; set; }
 
+        ///// <summary>
+        ///// 距离描述
+        ///// </summary>
+        //public string Distance { get; set; }
+
         /// <summary>
-        /// 距离描述
+        /// 位置描述
         /// </summary>
-        public string Distance { get; set; }
+        public string Position { get; set; }
+
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public double Longitude { get; set; }
+
+        /// <summary>
+        /// 维度
+        /// </summary>
+        public double Latitude { get; set; }
 
         /// <summary>
         /// 价格描述

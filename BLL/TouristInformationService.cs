@@ -26,7 +26,7 @@ namespace BLL
             {
                 var information = new TouristInformation
                 {
-                    Distance = input.Distance,
+                    //Distance = input.Distance,
                     ImgUrl =Path.Combine(imgPath,input.ImgUrl),
                     Name = input.Name,
                     Phone = input.Phone,
@@ -65,7 +65,7 @@ namespace BLL
                 information.Name = input.Name;
                 information.Phone = input.Phone;
                 information.Price = input.Price;
-                information.Distance = input.Distance;
+                //information.Distance = input.Distance;
                 information.Type = input.Type;
                 db.Entry(information).State = EntityState.Modified;
                 db.SaveChanges();
@@ -115,7 +115,7 @@ namespace BLL
             {
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Parameter);
                 if (information == null) return null;
-                result.Distance = information.Distance;
+                //result.Distance = information.Distance;
                 result.Id = information.Id;
                 result.ImgUrl = information.ImgUrl;
                 result.Name = information.Name;
@@ -150,7 +150,7 @@ namespace BLL
                         result.Add(new InformationForView
                         {
                             Id = item.Id,
-                            Distance = item.Distance,
+                            //Distance = item.Distance,
                             ImgUrl = item.ImgUrl,
                             Name = item.Name,
                             Phone = item.Phone,
@@ -176,7 +176,7 @@ namespace BLL
                 if (information == null) return null;
                 if (information.Type != TouristInformationType.Hotel) return null;
                 result.ImgUrl = information.ImgUrl;
-                result.Distance = information.Distance;
+                //result.Distance = information.Distance;
                 result.Name = information.Name;
                 result.Phone = information.Phone;
                 result.Price = information.Price;

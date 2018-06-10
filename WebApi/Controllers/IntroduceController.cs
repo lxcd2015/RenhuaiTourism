@@ -1,13 +1,16 @@
 ﻿using BLL;
+using System;
 using System.Web.Http;
+using ViewModel.Common;
 using ViewModel.Introduce;
+using Common;
 
 namespace WebApi.Controllers
 {
     /// <summary>
     /// 仁怀简介服务
     /// </summary>
-    public class IntroduceController : ApiController
+    public class IntroduceController : BaseApiController
     {
         private readonly IntroduceService bll;
 
@@ -21,18 +24,49 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public bool Edit(IntroduceInput input)
+        public GeneralResult Edit(IntroduceInput input)
         {
-            return bll.Edit(input);
+            var result = new GeneralResult();
+            try
+            {
+                bll.Edit(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 获取酒都简介
         /// </summary>
         /// <returns></returns>
-        public IntroduceInput Detail()
+        public GeneralResult Detail()
         {
-            return bll.Detail();
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.Detail();
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
+
         }
     }
 }

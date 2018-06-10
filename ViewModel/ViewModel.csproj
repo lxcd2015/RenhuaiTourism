@@ -49,6 +49,7 @@
     <Compile Include="Common\AddressConsts.cs" />
     <Compile Include="Common\ConfigurationInfo.cs" />
     <Compile Include="Common\DetailDto.cs" />
+    <Compile Include="Common\GeneralResult.cs" />
     <Compile Include="Common\GetDetailInput.cs" />
     <Compile Include="Common\ResourcePath.cs" />
     <Compile Include="Common\RTEntity.cs" />

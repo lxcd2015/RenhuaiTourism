@@ -146,6 +146,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\SwaggerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\BaseApiController.cs" />
     <Compile Include="Controllers\HomePageController.cs" />
     <Compile Include="Controllers\IntroduceController.cs" />
     <Compile Include="Controllers\MessageController.cs" />
@@ -184,6 +185,10 @@
     <ProjectReference Include="..\BLL\BLL.csproj">
       <Project>{0419b9ec-e415-4f24-bdb6-cfa0efd06345}</Project>
       <Name>BLL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{b09884bd-6764-4285-ba78-cde18aca1bd8}</Project>
+      <Name>Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Model\Model.csproj">
       <Project>{e18a4726-f9b8-40cd-a8ce-003e629b288c}</Project>

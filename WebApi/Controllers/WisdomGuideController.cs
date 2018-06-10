@@ -1,4 +1,6 @@
 ﻿using BLL;
+using Common;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -11,34 +13,79 @@ namespace WebApi.Controllers
     /// <summary>
     /// 智慧导览服务
     /// </summary>
-    public class WisdomGuideController : ApiController
+    public class WisdomGuideController : BaseApiController
     {
-        private readonly WisdomGuideService wisdomGuideService;
+        private readonly WisdomGuideService bll;
 
         public WisdomGuideController()
         {
-            wisdomGuideService = new WisdomGuideService();
+            bll = new WisdomGuideService();
         }
 
         /// <summary>
         /// 修改地图地址
         /// </summary>
-        public void ChangeMap(ChangeMapInput input) {
-            wisdomGuideService.ChangeMap(input);
+        public GeneralResult ChangeMap(ChangeMapInput input) {
+            var result = new GeneralResult();
+            try
+            {
+                bll.ChangeMap(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 添加景点
         /// </summary>
-        public void AddViewSpot(AddOrEditViewSpotDto input) {
-            wisdomGuideService.AddViewSpot(input);
+        public GeneralResult AddViewSpot(AddOrEditViewSpotDto input) {
+            var result = new GeneralResult();
+            try
+            {
+                bll.AddViewSpot(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 编辑景点
         /// </summary>
-        public void EditViewSpot(AddOrEditViewSpotDto input) {
-            wisdomGuideService.EditViewSpot(input);
+        public GeneralResult EditViewSpot(AddOrEditViewSpotDto input) {
+            var result = new GeneralResult();
+            try
+            {
+                bll.EditViewSpot(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -47,15 +94,45 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public AddOrEditViewSpotDto GetViewSpotForEdit(RTEntity<int> input) {
-            return wisdomGuideService.GetViewSpotForEdit(input);
+        public GeneralResult GetViewSpotForEdit(RTEntity<int> input) {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data= bll.GetViewSpotForEdit(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 获取地图景点简介信息
         /// </summary>
-        public ViewSpotInfoOutput ViewSpotInfo(ViewSpotInfoInput input) {
-           return wisdomGuideService.ViewSpotInfo(input);
+        public GeneralResult ViewSpotInfo(ViewSpotInfoInput input) {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.ViewSpotInfo(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -63,16 +140,46 @@ namespace WebApi.Controllers
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public ViewSpotDetailOutput ViewSpotDetail(RTEntity<int> input) {
-            return wisdomGuideService.ViewSpotDetail(input);
+        public GeneralResult ViewSpotDetail(RTEntity<int> input) {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.ViewSpotDetail(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 获取视频列表
         /// </summary>
         [HttpPost]
-        public List<ViewSpotVideoDto> GetVideoList(RTEntity<int> input) {
-            return wisdomGuideService.GetVideoList(input);
+        public GeneralResult GetVideoList(RTEntity<int> input) {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.GetVideoList(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
     }
 

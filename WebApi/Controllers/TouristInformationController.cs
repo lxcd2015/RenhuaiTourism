@@ -1,4 +1,5 @@
 ﻿using BLL;
+using Common;
 using Model.Data;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using ViewModel.TouristInformation;
 
 namespace WebApi.Controllers
 {
-    public class TouristInformationController : ApiController
+    public class TouristInformationController : BaseApiController
     {
         private readonly TouristInformationService bll;
 
@@ -24,27 +25,72 @@ namespace WebApi.Controllers
         /// 添加旅游信息
         /// </summary>
         /// <param name="input"></param>
-        public void Add(AddOrEditTouristInformation input)
+        public GeneralResult Add(AddOrEditTouristInformation input)
         {
-            bll.Add(input);
+            var result = new GeneralResult();
+            try
+            {
+                bll.Add(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 编辑旅游信息
         /// </summary>
         /// <param name="input"></param>
-        public void Edit(AddOrEditTouristInformation input)
+        public GeneralResult Edit(AddOrEditTouristInformation input)
         {
-            bll.Edit(input);
+            var result = new GeneralResult();
+            try
+            {
+                bll.Edit(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 删除旅游信息
         /// </summary>
         /// <param name="input"></param>
-        public void Delete(RTEntity<int> input)
+        public GeneralResult Delete(RTEntity<int> input)
         {
-            bll.Delete(input);
+            var result = new GeneralResult();
+            try
+            {
+                bll.Delete(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -53,9 +99,24 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public AddOrEditTouristInformation GetInformationForEdit(RTEntity<int> input)
+        public GeneralResult GetInformationForEdit(RTEntity<int> input)
         {
-            return bll.GetInformationForEdit(input);
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.GetInformationForEdit(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -64,9 +125,24 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public List<InformationForView> GetList(GetInformationListInput input)
+        public GeneralResult GetList(GetInformationListInput input)
         {
-            return bll.GetList(input);
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.GetList(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -75,9 +151,24 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public InformationDetail GetDetail(GetInformationDetail input)
+        public GeneralResult GetDetail(GetInformationDetail input)
         {
-            return bll.GetDetail(input);
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.GetDetail(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
     }
 }

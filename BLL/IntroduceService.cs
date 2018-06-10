@@ -29,7 +29,7 @@ namespace BLL
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public bool Edit(IntroduceInput input)
+        public void Edit(IntroduceInput input)
         {
             var introduceId = 0;
             var model = new Introduce
@@ -74,7 +74,6 @@ namespace BLL
             //{
             //    return false;
             //}
-            return true;
         }
 
         /// <summary>
@@ -83,6 +82,7 @@ namespace BLL
         /// <returns></returns>
         public IntroduceInput Detail()
         {
+
             var result = new IntroduceInput();
             using (var db = new RTDbContext())
             {

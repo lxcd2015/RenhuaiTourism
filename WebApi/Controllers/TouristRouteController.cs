@@ -1,4 +1,6 @@
 ﻿using BLL;
+using Common;
+using System;
 using System.Collections.Generic;
 using System.Web.Http;
 using ViewModel.Common;
@@ -6,7 +8,7 @@ using ViewModel.TouristRoute;
 
 namespace WebApi.Controllers
 {
-    public class TouristRouteController : ApiController
+    public class TouristRouteController : BaseApiController
     {
         private readonly TouristRouteService bll;
 
@@ -19,16 +21,46 @@ namespace WebApi.Controllers
         /// 添加旅游线路
         /// </summary>
         /// <param name="input"></param>
-        public void Add(AddOrEditTouristRouteInput input) {
-            bll.Add(input);
+        public GeneralResult Add(AddOrEditTouristRouteInput input) {
+            var result = new GeneralResult();
+            try
+            {
+                bll.Add(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 编辑旅游线路
         /// </summary>
         /// <param name="input"></param>
-        public void Edit(AddOrEditTouristRouteInput input) {
-            bll.Edit(input);
+        public GeneralResult Edit(AddOrEditTouristRouteInput input) {
+            var result = new GeneralResult();
+            try
+            {
+                bll.Edit(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -36,16 +68,46 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public List<TouristRouteForView> GetList() {
-           return bll.GetList();
+        public GeneralResult GetList() {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data= bll.GetList();
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
         /// 根据Id删除旅游线路
         /// </summary>
         /// <param name="input"></param>
-        public void Delete(RTEntity<int> input) {
-            bll.Delete(input);
+        public GeneralResult Delete(RTEntity<int> input) {
+            var result = new GeneralResult();
+            try
+            {
+                bll.Delete(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -54,8 +116,23 @@ namespace WebApi.Controllers
         /// <param name="input"></param>
         /// <returns></returns>
         [HttpPost]
-        public TouristRouteForView GetTouristRoute(RTEntity<int> input) {
-            return bll.GetTouristRoute(input);
+        public GeneralResult GetTouristRoute(RTEntity<int> input) {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.GetTouristRoute(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
     }
 }

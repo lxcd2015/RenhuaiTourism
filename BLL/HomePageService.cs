@@ -12,7 +12,7 @@ namespace BLL
 {
     public class HomePageService:ServiceBase
     {
-        public bool Edit(HomePageInput input)
+        public void Edit(HomePageInput input)
         {
             var imgPath = ResourcePath.HomePage;
             var model = new HomePage
@@ -48,7 +48,6 @@ namespace BLL
             //{
             //    return false;
             //}
-            return true;
         }
 
         public HomePageInput Detail()

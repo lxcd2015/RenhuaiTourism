@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ViewModel", "ViewModel\ViewModel.csproj", "{18D83FF3-CB4B-4732-9881-9655C6DFEBA1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{B09884BD-6764-4285-BA78-CDE18ACA1BD8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,12 +35,16 @@ Global
 		{18D83FF3-CB4B-4732-9881-9655C6DFEBA1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18D83FF3-CB4B-4732-9881-9655C6DFEBA1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18D83FF3-CB4B-4732-9881-9655C6DFEBA1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B09884BD-6764-4285-BA78-CDE18ACA1BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B09884BD-6764-4285-BA78-CDE18ACA1BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B09884BD-6764-4285-BA78-CDE18ACA1BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B09884BD-6764-4285-BA78-CDE18ACA1BD8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		VisualSVNWorkingCopyRoot = .
 		SolutionGuid = {F2425584-AA44-4B5F-A679-5EBAEB5DD503}
+		VisualSVNWorkingCopyRoot = .
 	EndGlobalSection
 EndGlobal

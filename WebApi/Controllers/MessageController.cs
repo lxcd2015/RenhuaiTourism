@@ -1,10 +1,12 @@
 ﻿using BLL;
+using Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using ViewModel.Common;
 using ViewModel.Message;
 
 namespace WebApi.Controllers
@@ -12,22 +14,37 @@ namespace WebApi.Controllers
     /// <summary>
     /// 投诉建议服务
     /// </summary>
-    public class MessageController : ApiController
+    public class MessageController : BaseApiController
     {
-        private readonly MessageService messageService;
+        private readonly MessageService bll;
 
         public MessageController()
         {
-            messageService = new MessageService();
+            bll = new MessageService();
         }
 
         /// <summary>
         /// 添加投诉或建议
         /// </summary>
         /// <param name="input"></param>
-        public void Add(AddMessageInput input)
+        public GeneralResult Add(AddMessageInput input)
         {
-            messageService.Add(input);
+            var result = new GeneralResult();
+            try
+            {
+                bll.Add(input);
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -35,9 +52,24 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public List<MessageForView> GetComplaintList()
+        public GeneralResult GetComplaintList()
         {
-            return messageService.GetComplaintList();
+            var result = new GeneralResult();
+            try
+            {
+                result.Data= bll.GetComplaintList();
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
 
         /// <summary>
@@ -45,9 +77,24 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public List<MessageForView> GetAdviseList()
+        public GeneralResult GetAdviseList()
         {
-            return messageService.GetAdviseList();
+            var result = new GeneralResult();
+            try
+            {
+                result.Data= bll.GetAdviseList();
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
         }
     }
 }

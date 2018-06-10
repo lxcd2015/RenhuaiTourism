@@ -64,7 +64,7 @@ namespace BLL
                 _detail.AddOrEdit(new AddOrEditDetailInput
                 {
                     ProjectId = introduceId,
-                    ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                    ImgUrl = HttpPathCombine(_imgPath, input.BigImgUrl),
                     Paragraphs = input.Contents
                 }, db);
 

@@ -18,12 +18,12 @@ namespace BLL
             var imgPath = ResourcePath.HomePage;
             var model = new HomePage
             {
-                FirstImgUrl = PathCombine(imgPath,input.FirstImgUrl),
-                ThirdImgUrl = PathCombine(imgPath, input.ThirdImgUrl)
+                FirstImgUrl = HttpPathCombine(imgPath,input.FirstImgUrl),
+                ThirdImgUrl = HttpPathCombine(imgPath, input.ThirdImgUrl)
             };
             if (input.SecondImgUrlList != null && input.SecondImgUrlList.Count != 0)
             {
-                input.SecondImgUrlList= input.SecondImgUrlList.Select(p => PathCombine(imgPath, p)).ToList();
+                input.SecondImgUrlList= input.SecondImgUrlList.Select(p => HttpPathCombine(imgPath, p)).ToList();
                 model.SecondImgUrl = string.Join("\n", input.SecondImgUrlList);
             }
             //try

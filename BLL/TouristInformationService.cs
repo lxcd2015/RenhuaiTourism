@@ -36,7 +36,7 @@ namespace BLL
                 var information = new TouristInformation
                 {
                     //Distance = input.Distance,
-                    ImgUrl =PathCombine(_imgPath, input.SmallImgUrl),
+                    ImgUrl =HttpPathCombine(_imgPath, input.SmallImgUrl),
                     Position = input.Position,
                     Latitude = input.Latitude,
                     Longitude = input.Longitude,
@@ -60,7 +60,7 @@ namespace BLL
                     {
                         Classify = (int)information.Type,
                         ProjectId = information.Id,
-                        ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                        ImgUrl = HttpPathCombine(_imgPath, input.BigImgUrl),
                         Paragraphs = input.Contents
                     }, db);
                     db.SaveChanges();
@@ -80,7 +80,7 @@ namespace BLL
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
                 if (information == null)
                     throw new RTException("所选信息不存在");
-                information.ImgUrl = PathCombine(_imgPath, input.SmallImgUrl);
+                information.ImgUrl = HttpPathCombine(_imgPath, input.SmallImgUrl);
                 information.Position = input.Position;
                 information.Longitude = input.Longitude;
                 information.Latitude = input.Latitude;
@@ -97,7 +97,7 @@ namespace BLL
                     {
                         Classify = (int)information.Type,
                         ProjectId = information.Id,
-                        ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                        ImgUrl = HttpPathCombine(_imgPath, input.BigImgUrl),
                         Paragraphs = input.Contents
                     }, db);
                     db.SaveChanges();

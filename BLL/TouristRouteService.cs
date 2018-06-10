@@ -32,7 +32,7 @@ namespace BLL
             var route = new TouristRoute
             {
                 Content = input.Content,
-                ImgUrl = PathCombine(_imgPath, input.ImgUrl)
+                ImgUrl = HttpPathCombine(_imgPath, input.ImgUrl)
             };
 
             using (var db = new RTDbContext())
@@ -53,7 +53,7 @@ namespace BLL
                 var routes = db.TouristRoutes.FirstOrDefault(p => p.Id == input.Id);
                 if (routes == null)
                     throw new RTException("所选数据不存在");
-                routes.ImgUrl = PathCombine(_imgPath, input.ImgUrl);
+                routes.ImgUrl = HttpPathCombine(_imgPath, input.ImgUrl);
                 routes.Content = input.Content;
                 db.Entry(routes).State = EntityState.Modified;
                 db.SaveChanges();

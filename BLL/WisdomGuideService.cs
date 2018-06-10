@@ -48,7 +48,7 @@ namespace BLL
         {
             if (input.ImgUrl == null || input.ImgUrl == "")
                 throw new RTException("请填写图片地址");
-            input.ImgUrl = PathCombine(_resourcePath, input.ImgUrl);
+            input.ImgUrl = HttpPathCombine(_resourcePath, input.ImgUrl);
             //using (TransactionScope tran = new TransactionScope())
             //{
             using (var db = new RTDbContext())
@@ -89,7 +89,7 @@ namespace BLL
                 var model = new WisdomGuideViewSpot
                 {
                     //Content = input.Content,
-                    ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl),
+                    ImgUrl = HttpPathCombine(_resourcePath, input.SmallImgUrl),
                     //ViewSpotDescribe = input.ViewSpotDescribe,
                     Position = input.Position,
                     Phone = input.Phone,
@@ -105,7 +105,7 @@ namespace BLL
                 _detail.AddOrEdit(new AddOrEditDetailInput
                 {
                     ProjectId = model.Id,
-                    ImgUrl = PathCombine(_resourcePath, input.BigImgUrl),
+                    ImgUrl = HttpPathCombine(_resourcePath, input.BigImgUrl),
                     Paragraphs = input.Contents
                 }, db);
 
@@ -116,9 +116,9 @@ namespace BLL
                     {
                         db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
-                            ImgUrl = PathCombine(_resourcePath, item.ImgUrl),
+                            ImgUrl = HttpPathCombine(_resourcePath, item.ImgUrl),
                             VideoName = item.VideoName,
-                            VideoUrl = PathCombine(_resourcePath, item.VideoUrl),
+                            VideoUrl = HttpPathCombine(_resourcePath, item.VideoUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });
@@ -143,7 +143,7 @@ namespace BLL
                 if (model == null)
                     throw new RTException("所选数据不存在");
 
-                model.ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl);
+                model.ImgUrl = HttpPathCombine(_resourcePath, input.SmallImgUrl);
                 //model.ViewSpotDescribe = input.ViewSpotDescribe;
                 model.Position = input.Position;
                 model.Phone = input.Phone;
@@ -158,7 +158,7 @@ namespace BLL
                 _detail.AddOrEdit(new AddOrEditDetailInput
                 {
                     ProjectId = model.Id,
-                    ImgUrl = PathCombine(_resourcePath, input.BigImgUrl),
+                    ImgUrl = HttpPathCombine(_resourcePath, input.BigImgUrl),
                     Paragraphs = input.Contents
                 }, db);
 
@@ -177,9 +177,9 @@ namespace BLL
                     {
                         db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
-                            ImgUrl = PathCombine(_resourcePath, item.ImgUrl),
+                            ImgUrl = HttpPathCombine(_resourcePath, item.ImgUrl),
                             VideoName = item.VideoName,
-                            VideoUrl = PathCombine(_resourcePath, item.VideoUrl),
+                            VideoUrl = HttpPathCombine(_resourcePath, item.VideoUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });

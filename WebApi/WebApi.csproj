@@ -164,8 +164,6 @@
     <Content Include="Global.asax" />
     <None Include="packages.config" />
     <EmbeddedResource Include="Swagger\translator.js" />
-    <Content Include="Resource\HomePage\1.png" />
-    <Content Include="Resource\Introduce\string.png" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -177,6 +175,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Areas\" />
+    <Folder Include="Resource\HomePage\" />
+    <Folder Include="Resource\Introduce\" />
     <Folder Include="Resource\TouristInformation\" />
     <Folder Include="Resource\TouristRoute\" />
     <Folder Include="Resource\WisdomGuide\" />

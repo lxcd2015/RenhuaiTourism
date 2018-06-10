@@ -11,7 +11,7 @@ namespace ViewModel.WisdomGuide
         /// <summary>
         /// 景点名称
         /// </summary>
-        public string ViewSpotName { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
         /// 经度

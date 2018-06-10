@@ -13,13 +13,13 @@ namespace BLL
 {
     public class WisdomGuideService : ServiceBase
     {
-        private readonly string _imgPath;
+        private readonly string _resourcePath;
 
        private readonly DetailManager _detail;
 
        public WisdomGuideService()
        {
-           _imgPath = ResourcePath.WisdomGuide;
+            _resourcePath = ResourcePath.WisdomGuide;
            _detail = new DetailManager(ModularType.WisdomGuide);
        }
 
@@ -46,7 +46,7 @@ namespace BLL
         public void ChangeMap(ChangeMapInput input)
         {
             if (input.ImgUrl == null || input.ImgUrl == "") return;
-            input.ImgUrl = PathCombine(_imgPath, input.ImgUrl);
+            input.ImgUrl = PathCombine(_resourcePath, input.ImgUrl);
             //using (TransactionScope tran = new TransactionScope())
             //{
                 using (var db = new RTDbContext())
@@ -87,10 +87,11 @@ namespace BLL
                     var model = new WisdomGuideViewSpot
                     {
                         //Content = input.Content,
-                        ImgUrl = PathCombine(_imgPath,input.SmallImgUrl),
+                        ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl),
                         //ViewSpotDescribe = input.ViewSpotDescribe,
                         Position=input.Position,
-                        Longitude=input.Longitude,
+                        Phone=input.Phone,
+                        Longitude =input.Longitude,
                         Latitude=input.Latitude,
                         ViewSpotName = input.ViewSpotName,
                         WisdomGuideId = wisdomGuideId
@@ -102,7 +103,7 @@ namespace BLL
                     _detail.AddOrEdit(new AddOrEditDetailInput
                     {
                         ProjectId = model.Id,
-                        ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                        ImgUrl = PathCombine(_resourcePath, input.BigImgUrl),
                         Paragraphs = input.Contents
                     }, db);
 
@@ -113,9 +114,9 @@ namespace BLL
                         {
                             db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                             {
-                                ImgUrl =PathCombine(_imgPath,item.ImgUrl),
+                                ImgUrl =PathCombine(_resourcePath, item.ImgUrl),
                                 VideoName = item.VideoName,
-                                VideoUrl = item.VideoUrl,
+                                VideoUrl = PathCombine(_resourcePath, item.VideoUrl),
                                 WisdomGuideViewSpotId = ViewSpotId
                             });
                         });
@@ -139,9 +140,10 @@ namespace BLL
                 var model = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
                 if (model == null) return;
 
-                model.ImgUrl = PathCombine(_imgPath, input.SmallImgUrl);
+                model.ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl);
                 //model.ViewSpotDescribe = input.ViewSpotDescribe;
                 model.Position = input.Position;
+                model.Phone = input.Phone;
                 model.Longitude = input.Longitude;
                 model.Latitude = input.Latitude;
                 model.ViewSpotName = input.ViewSpotName;
@@ -153,7 +155,7 @@ namespace BLL
                 _detail.AddOrEdit(new AddOrEditDetailInput
                 {
                     ProjectId = model.Id,
-                    ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                    ImgUrl = PathCombine(_resourcePath, input.BigImgUrl),
                     Paragraphs = input.Contents
                 }, db);
 
@@ -172,7 +174,7 @@ namespace BLL
                     {
                         db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
-                            ImgUrl = PathCombine(_imgPath, item.ImgUrl),
+                            ImgUrl = PathCombine(_resourcePath, item.ImgUrl),
                             VideoName = item.VideoName,
                             VideoUrl = item.VideoUrl,
                             WisdomGuideViewSpotId = ViewSpotId
@@ -191,13 +193,13 @@ namespace BLL
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public AddOrEditViewSpotDto GetViewSpotForEdit(RTEntity<string> input)
+        public AddOrEditViewSpotDto GetViewSpotForEdit(RTEntity<int> input)
         {
             if (input == null) return null;
             var result = new AddOrEditViewSpotDto();
             using (var db = new RTDbContext())
             {
-                var viewSpot = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
+                var viewSpot = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Parameter);
                 if (viewSpot == null) return null;
                 result.Id = viewSpot.Id;
                 result.SmallImgUrl = viewSpot.ImgUrl;
@@ -205,6 +207,7 @@ namespace BLL
                 //result.ImgUrl = viewSpot.ImgUrl;
                 //result.ViewSpotDescribe = viewSpot.ViewSpotDescribe;
                 result.Position = viewSpot.Position;
+                result.Phone = viewSpot.Phone;
                 result.Longitude = viewSpot.Longitude;
                 result.Latitude = viewSpot.Latitude;
                 result.ViewSpotName = viewSpot.ViewSpotName;
@@ -247,7 +250,7 @@ namespace BLL
             var result = new ViewSpotInfoOutput();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.ViewSpotName);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
                 if (viewPort == null) return null;
 
                 #region 根据经纬度计算距离
@@ -268,7 +271,9 @@ namespace BLL
                 result.ViewSpotName = viewPort.ViewSpotName;
                 //result.ViewSpotDescribe = viewPort.ViewSpotDescribe;
                 result.Position = viewPort.Position;
+                result.Phone = viewPort.Phone;
                 result.Distance = distance;
+                result.ImgUrl = viewPort.ImgUrl;
                 result.DistanceDescription = distanceDescription;
 
                 var map = db.WisdomGuideMaps.FirstOrDefault(p => p.WisdomGuideId == viewPort.WisdomGuideId);
@@ -294,13 +299,13 @@ namespace BLL
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
-        public ViewSpotDetailOutput ViewSpotDetail(RTEntity<string> input)
+        public ViewSpotDetailOutput ViewSpotDetail(RTEntity<int> input)
         {
             if (input == null) return null;
             var result = new ViewSpotDetailOutput();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Parameter);
                 if (viewPort == null) return null;
 
                 var detail = _detail.GetDetail(new GetDetailInput
@@ -318,13 +323,13 @@ namespace BLL
         /// <summary>
         /// 获取视频列表
         /// </summary>
-        public List<ViewSpotVideoDto> GetVideoList(RTEntity<string> input)
+        public List<ViewSpotVideoDto> GetVideoList(RTEntity<int> input)
         {
             if (input == null) return null;
             var result = new List<ViewSpotVideoDto>();
             using (var db = new RTDbContext())
             {
-                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
+                var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Parameter);
                 if (viewPort == null) return result;
 
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id).ToList();

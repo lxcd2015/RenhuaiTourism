@@ -28,6 +28,11 @@ namespace Model.Data
         public string Position { get; set; }
 
         /// <summary>
+        /// 联系电话
+        /// </summary>
+        public string Phone { get; set; }
+
+        /// <summary>
         /// 经度
         /// </summary>
         public double Longitude { get; set; }

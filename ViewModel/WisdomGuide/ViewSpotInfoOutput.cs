@@ -18,6 +18,11 @@ namespace ViewModel.WisdomGuide
         /// </summary>
         public string ViewSpotName { get; set; }
 
+        /// <summary>
+        /// 小图片地址
+        /// </summary>
+        public string ImgUrl { get; set; }
+
         ///// <summary>
         ///// 景点描述（目前用于距离描述）
         ///// </summary>
@@ -37,6 +42,11 @@ namespace ViewModel.WisdomGuide
         /// 位置描述
         /// </summary>
         public string Position { get; set; }
+        
+        /// <summary>
+        ///联系电话 
+        /// </summary>
+        public string Phone { get; set; }
 
         /// <summary>
         /// 是否有更多视频

@@ -1,4 +1,5 @@
 ﻿using BLL.Common;
+using Common;
 using Model;
 using Model.Data;
 using System;
@@ -78,7 +79,7 @@ namespace BLL
             {
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
                 if (information == null)
-                    return;
+                    throw new RTException("所选信息不存在");
                 information.ImgUrl = PathCombine(_imgPath, input.SmallImgUrl);
                 information.Position = input.Position;
                 information.Longitude = input.Longitude;
@@ -109,7 +110,8 @@ namespace BLL
             using (var db = new RTDbContext())
             {
                 var information = db.TouristInformations.FirstOrDefault();
-                if (information == null) return;
+                if (information == null)
+                    throw new RTException("所删数据不存在");
                 //var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == information.Id);
                 //db.TouristInformationDetails.Remove(detail);
 
@@ -136,7 +138,8 @@ namespace BLL
             using (var db = new RTDbContext())
             {
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Parameter);
-                if (information == null) return null;
+                if (information == null)
+                    throw new RTException("所选数据不存在");
                 //result.Distance = information.Distance;
                 result.Id = information.Id;
                 result.SmallImgUrl = information.ImgUrl;
@@ -224,8 +227,10 @@ namespace BLL
             using (var db = new RTDbContext())
             {
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
-                if (information == null) return null;
-                if (information.Type != TouristInformationType.Hotel) return null;
+                if (information == null)
+                    throw new RTException("所选数据不存在");
+                if (information.Type != TouristInformationType.Hotel)
+                    throw new RTException("酒店数据，才有详细信息");
 
                 double distance = 0;
                 string distanceDescription = "";

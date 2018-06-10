@@ -1,4 +1,5 @@
 ﻿using BLL.Common;
+using Common;
 using Model;
 using Model.Data;
 using System;
@@ -87,7 +88,8 @@ namespace BLL
             using (var db = new RTDbContext())
             {
                 var data = db.Introduces.FirstOrDefault();
-                if (data == null) return null;
+                if (data == null)
+                    throw new RTException("数据不存在，请联系管理员");
                 result.Title = data.Title;
                 //result.ImgUrl = data.ImgUrl;
                 //result.Content = data.Content;

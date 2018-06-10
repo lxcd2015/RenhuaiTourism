@@ -1,4 +1,5 @@
 ﻿using BLL.Common;
+using Common;
 using Model;
 using Model.Data;
 using System.Collections.Generic;
@@ -45,7 +46,8 @@ namespace BLL
         /// </summary>
         public void ChangeMap(ChangeMapInput input)
         {
-            if (input.ImgUrl == null || input.ImgUrl == "") return;
+            if (input.ImgUrl == null || input.ImgUrl == "")
+                throw new RTException("请填写图片地址");
             input.ImgUrl = PathCombine(_resourcePath, input.ImgUrl);
             //using (TransactionScope tran = new TransactionScope())
             //{
@@ -138,7 +140,8 @@ namespace BLL
             {
                 int wisdomGuideId = GetWisdomGuideId(db);
                 var model = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
-                if (model == null) return;
+                if (model == null)
+                    throw new RTException("所选数据不存在");
 
                 model.ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl);
                 //model.ViewSpotDescribe = input.ViewSpotDescribe;
@@ -195,12 +198,14 @@ namespace BLL
         /// <returns></returns>
         public AddOrEditViewSpotDto GetViewSpotForEdit(RTEntity<int> input)
         {
-            if (input == null) return null;
+            if (input == null)
+                throw new RTException("输入参数不能为空");
             var result = new AddOrEditViewSpotDto();
             using (var db = new RTDbContext())
             {
                 var viewSpot = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Parameter);
-                if (viewSpot == null) return null;
+                if (viewSpot == null)
+                    throw new RTException("所选数据不存在");
                 result.Id = viewSpot.Id;
                 result.SmallImgUrl = viewSpot.ImgUrl;
                 //result.Content = viewSpot.Content;
@@ -246,12 +251,14 @@ namespace BLL
         /// </summary>
         public ViewSpotInfoOutput ViewSpotInfo(ViewSpotInfoInput input)
         {
-            if (input == null) return null;
+            if (input == null)
+                throw new RTException("输入参数不能为空");
             var result = new ViewSpotInfoOutput();
             using (var db = new RTDbContext())
             {
                 var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
-                if (viewPort == null) return null;
+                if (viewPort == null)
+                    throw new RTException("所选数据不存在");
 
                 #region 根据经纬度计算距离
                 double distance = 0;
@@ -301,12 +308,14 @@ namespace BLL
         /// <returns></returns>
         public ViewSpotDetailOutput ViewSpotDetail(RTEntity<int> input)
         {
-            if (input == null) return null;
+            if (input == null)
+                throw new RTException("输入参数不能为空");
             var result = new ViewSpotDetailOutput();
             using (var db = new RTDbContext())
             {
                 var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Parameter);
-                if (viewPort == null) return null;
+                if (viewPort == null)
+                    throw new RTException("所选数据不存在");
 
                 var detail = _detail.GetDetail(new GetDetailInput
                 {
@@ -325,12 +334,14 @@ namespace BLL
         /// </summary>
         public List<ViewSpotVideoDto> GetVideoList(RTEntity<int> input)
         {
-            if (input == null) return null;
+            if (input == null)
+                throw new RTException("输入参数不能为空");
             var result = new List<ViewSpotVideoDto>();
             using (var db = new RTDbContext())
             {
                 var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Parameter);
-                if (viewPort == null) return result;
+                if (viewPort == null)
+                    throw new RTException("所选数据不存在");
 
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id).ToList();
                 if (videoList != null && videoList.Count != 0)

@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using Common;
+using Model;
 using Model.Data;
 using System;
 using System.Collections.Generic;
@@ -85,7 +86,8 @@ namespace BLL.Common
         public void Delete(GetDetailInput input, RTDbContext db)
         {
             var detail = db.Details.FirstOrDefault(p => p.ModularType == _modularType && p.Classify == input.Classify && p.ProjectId == input.ProjectId);
-            if (detail == null) return;
+            if (detail == null)
+                throw new RTException("所选数据不存在");
             var list = db.DetailParagraphs.Where(p => p.DetailId == detail.Id).ToList();
             if (list != null && list.Count() != 0)
             {
@@ -133,7 +135,8 @@ namespace BLL.Common
         {
             var result = new DetailDto();
             var detail = db.Details.FirstOrDefault(p => p.ModularType == _modularType && p.Classify == input.Classify && p.ProjectId == input.ProjectId);
-            if (detail == null) return null;
+            if (detail == null)
+                throw new RTException("所删数据不存在");
             result.ImgUrl = detail.ImgUrl;
             var paragraphs = db.DetailParagraphs.Where(p => p.DetailId == detail.Id).OrderBy(p => p.ParagraphIndex).Select(p => p.ParagraphContent);
             if (paragraphs != null && paragraphs.Count() != 0)

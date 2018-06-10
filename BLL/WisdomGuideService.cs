@@ -304,11 +304,11 @@ namespace BLL
                 if (videoList != null && videoList.Count != 0)
                 {
                     var video = videoList.FirstOrDefault();
-                    result.FirstVideo = new ViewSpotVideoDto();
-                    result.FirstVideo.ImgUrl = video.ImgUrl;
-                    result.FirstVideo.VoiceUrl = video.VoiceUrl;
-                    result.FirstVideo.VoiceName = video.VoiceName;
-                    result.FirstVideo.WisdomGuideViewSpotId = video.WisdomGuideViewSpotId;
+                    result.FirstVoice = new ViewSpotVideoDto();
+                    result.FirstVoice.ImgUrl = video.ImgUrl;
+                    result.FirstVoice.VoiceUrl = video.VoiceUrl;
+                    result.FirstVoice.VoiceName = video.VoiceName;
+                    result.FirstVoice.WisdomGuideViewSpotId = video.WisdomGuideViewSpotId;
                     
                     if (videoList.Count > 1)
                     {

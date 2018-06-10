@@ -45,6 +45,31 @@ namespace WebApi.Controllers
         }
 
         /// <summary>
+        /// 获取地图及景点列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpPost]
+        public GeneralResult GetMapInofo()
+        {
+            var result = new GeneralResult();
+            try
+            {
+                result.Data = bll.GetMapInofo();
+                result.State = 0;
+                result.Msg = "操作成功";
+            }
+            catch (RTException e)
+            {
+                result = RTExceptionHandle(e);
+            }
+            catch (Exception e1)
+            {
+                result = ExceptionHandle(e1);
+            }
+            return result;
+        }
+
+        /// <summary>
         /// 添加景点
         /// </summary>
         public GeneralResult AddViewSpot(AddOrEditViewSpotDto input) {

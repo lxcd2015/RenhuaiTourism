@@ -56,7 +56,7 @@ namespace ViewModel.WisdomGuide
         /// <summary>
         /// 其中一个视频信息
         /// </summary>
-        public ViewSpotVideoDto FirstVideo { get; set; }
+        public ViewSpotVideoDto FirstVoice { get; set; }
 
         /// <summary>
         /// 经度

@@ -45,8 +45,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Common\AddOrEditDetailInput.cs" />
     <Compile Include="Common\AddressConsts.cs" />
     <Compile Include="Common\ConfigurationInfo.cs" />
+    <Compile Include="Common\DetailDto.cs" />
+    <Compile Include="Common\GetDetailInput.cs" />
     <Compile Include="Common\ResourcePath.cs" />
     <Compile Include="Common\RTEntity.cs" />
     <Compile Include="HomePage\HomePageInput.cs" />

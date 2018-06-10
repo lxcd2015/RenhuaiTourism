@@ -10,6 +10,7 @@ namespace ViewModel.TouristInformation
     public class AddOrEditTouristInformation
     {
         public int Id { get; set; }
+
         /// <summary>
         /// 旅游信息类型（1：酒店；2：餐饮；3：特产；4：旅行社；5：车辆服务；6：旅游购物）
         /// </summary>
@@ -21,9 +22,14 @@ namespace ViewModel.TouristInformation
         public string Name { get; set; }
 
         /// <summary>
-        /// 图片地址
+        /// 小图片地址
         /// </summary>
-        public string ImgUrl { get; set; }
+        public string SmallImgUrl { get; set; }
+
+        /// <summary>
+        /// 大图片地址
+        /// </summary>
+        public string BigImgUrl { get; set; }
 
         /// <summary>
         /// 距离描述
@@ -58,6 +64,6 @@ namespace ViewModel.TouristInformation
         /// <summary>
         /// 详情
         /// </summary>
-        public string Content { get; set; }
+        public List<string> Contents { get; set; }
     }
 }

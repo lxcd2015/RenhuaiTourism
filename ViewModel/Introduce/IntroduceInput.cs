@@ -19,11 +19,11 @@ namespace ViewModel.Introduce
         /// <summary>
         /// 图片
         /// </summary>
-        public string ImgUrl { get; set; }
+        public string BigImgUrl { get; set; }
 
         /// <summary>
         /// 内容
         /// </summary>
-        public string Content { get; set; }
+        public List<string> Contents { get; set; }
     }
 }

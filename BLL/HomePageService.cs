@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using BLL.Common;
+using Model;
 using Model.Data;
 using System;
 using System.Data.Entity;
@@ -9,19 +10,19 @@ using ViewModel.HomePage;
 
 namespace BLL
 {
-    public class HomePageService
+    public class HomePageService:ServiceBase
     {
         public bool Edit(HomePageInput input)
         {
             var imgPath = ResourcePath.HomePage;
             var model = new HomePage
             {
-                FirstImgUrl = Path.Combine(imgPath,input.FirstImgUrl),
-                ThirdImgUrl = Path.Combine(imgPath, input.ThirdImgUrl)
+                FirstImgUrl = PathCombine(imgPath,input.FirstImgUrl),
+                ThirdImgUrl = PathCombine(imgPath, input.ThirdImgUrl)
             };
             if (input.SecondImgUrlList != null && input.SecondImgUrlList.Count != 0)
             {
-                input.SecondImgUrlList= input.SecondImgUrlList.Select(p => Path.Combine(imgPath, p)).ToList();
+                input.SecondImgUrlList= input.SecondImgUrlList.Select(p => PathCombine(imgPath, p)).ToList();
                 model.SecondImgUrl = string.Join("\n", input.SecondImgUrlList);
             }
             //try

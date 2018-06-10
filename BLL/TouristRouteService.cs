@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using BLL.Common;
+using Model;
 using Model.Data;
 using System;
 using System.Collections.Generic;
@@ -12,9 +13,14 @@ using ViewModel.TouristRoute;
 
 namespace BLL
 {
-    public class TouristRouteService
+    public class TouristRouteService : ServiceBase
     {
-        private string imgPath = ResourcePath.TouristRoute;
+        private readonly string _imgPath;
+
+        public TouristRouteService()
+        {
+            _imgPath = ResourcePath.TouristRoute;
+        }
 
         /// <summary>
         /// 添加旅游线路信息
@@ -25,7 +31,7 @@ namespace BLL
             var route = new TouristRoute
             {
                 Content = input.Content,
-                ImgUrl = Path.Combine(imgPath,input.ImgUrl)
+                ImgUrl = PathCombine(_imgPath,input.ImgUrl)
             };
 
             using (var db = new RTDbContext())
@@ -46,7 +52,7 @@ namespace BLL
                 var routes= db.TouristRoutes.FirstOrDefault(p=>p.Id==input.Id);
                 if (routes != null)
                 {
-                    routes.ImgUrl = Path.Combine(imgPath, input.ImgUrl);
+                    routes.ImgUrl = PathCombine(_imgPath, input.ImgUrl);
                     routes.Content = input.Content;
                     db.Entry(routes).State = EntityState.Modified;
                     db.SaveChanges();

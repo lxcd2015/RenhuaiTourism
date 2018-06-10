@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using BLL.Common;
+using Model;
 using Model.Data;
 using System;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ using ViewModel.Message;
 
 namespace BLL
 {
-    public class MessageService
+    public class MessageService : ServiceBase
     {
         /// <summary>
         /// 添加投诉或建议

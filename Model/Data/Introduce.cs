@@ -17,14 +17,14 @@ namespace Model.Data
         /// </summary>
         public string Title { get; set; }
 
-        /// <summary>
-        /// 图片
-        /// </summary>
-        public string ImgUrl { get; set; }
+        ///// <summary>
+        ///// 图片
+        ///// </summary>
+        //public string ImgUrl { get; set; }
 
-        /// <summary>
-        /// 内容
-        /// </summary>
-        public string Content { get; set; } 
+        ///// <summary>
+        ///// 内容
+        ///// </summary>
+        //public string Content { get; set; } 
     }
 }

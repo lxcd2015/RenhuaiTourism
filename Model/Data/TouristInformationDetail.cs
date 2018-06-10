@@ -7,19 +7,21 @@ using System.Threading.Tasks;
 
 namespace Model.Data
 {
-    public class TouristInformationDetail
-    {
-        [Key]
-        public int Id { get; set; }
+    //public class TouristInformationDetail
+    //{
+    //    //[Key]
+    //    //public int Id { get; set; }
 
-        /// <summary>
-        /// 旅游信息表Id
-        /// </summary>
-        public int InformationId { get; set; }
+    //    ///// <summary>
+    //    ///// 旅游信息表Id
+    //    ///// </summary>
+    //    //public int InformationId { get; set; }
 
-        /// <summary>
-        /// 详情
-        /// </summary>
-        public string Content { get; set; }
-    }
+    //    //public string ImgUrl { get; set; }
+
+    //    ///// <summary>
+    //    ///// 详情
+    //    ///// </summary>
+    //    //public string Content { get; set; }
+    //}
 }

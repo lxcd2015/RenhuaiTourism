@@ -41,14 +41,19 @@ namespace ViewModel.WisdomGuide
         public double Latitude { get; set; }
 
         /// <summary>
-        /// 详情-图片地址
+        /// 小图地址
         /// </summary>
-        public string ImgUrl { get; set; }
+        public string SmallImgUrl { get; set; }
 
         /// <summary>
-        /// 详情-内容
+        /// 大图地址
         /// </summary>
-        public string Content { get; set; }
+        public string BigImgUrl { get; set; }
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public List<string> Contents { get; set; }
 
         /// <summary>
         /// 视频列表

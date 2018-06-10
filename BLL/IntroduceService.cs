@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using BLL.Common;
+using Model;
 using Model.Data;
 using System;
 using System.Collections.Generic;
@@ -12,8 +13,16 @@ using ViewModel.Introduce;
 
 namespace BLL
 {
-    public class IntroduceService
+    public class IntroduceService : ServiceBase
     {
+        private readonly DetailManager _detail;
+        private readonly string _imgPath;
+
+        public IntroduceService()
+        {
+            _imgPath = ResourcePath.Introduce;
+            _detail = new DetailManager(ModularType.Introduce);
+        }
 
         /// <summary>
         /// 编辑简介仁怀
@@ -22,12 +31,12 @@ namespace BLL
         /// <returns></returns>
         public bool Edit(IntroduceInput input)
         {
-            var imgPath = ResourcePath.Introduce;
+            var introduceId = 0;
             var model = new Introduce
             {
                 Title = input.Title,
-                ImgUrl = Path.Combine(imgPath,input.ImgUrl),
-                Content = input.Content
+                //ImgUrl = Path.Combine(imgPath,input.ImgUrl),
+                //Content = input.Content
             };
 
             //try
@@ -38,14 +47,26 @@ namespace BLL
                 if (oldModel == null)
                 {
                     db.Introduces.Add(model);
+                    db.SaveChanges();
+                    introduceId = model.Id;
                 }
                 else
                 {
                     oldModel.Title = model.Title;
-                    oldModel.ImgUrl = model.ImgUrl;
-                    oldModel.Content = model.Content;
+                    //oldModel.ImgUrl = model.ImgUrl;
+                    //oldModel.Content = model.Content;
                     db.Entry(oldModel).State = EntityState.Modified;
+                    db.SaveChanges();
+                    introduceId = oldModel.Id;
                 }
+                
+                _detail.AddOrEdit(new AddOrEditDetailInput
+                {
+                    ProjectId = introduceId,
+                    ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                    Paragraphs = input.Contents
+                }, db);
+
                 db.SaveChanges();
             }
             //}
@@ -68,8 +89,17 @@ namespace BLL
                 var data = db.Introduces.FirstOrDefault();
                 if (data == null) return null;
                 result.Title = data.Title;
-                result.ImgUrl = data.ImgUrl;
-                result.Content = data.Content;
+                //result.ImgUrl = data.ImgUrl;
+                //result.Content = data.Content;
+
+                var detail = _detail.GetDetail(new GetDetailInput
+                {
+                    ProjectId = data.Id
+                }, db);
+                if (detail == null) return result;
+
+                result.BigImgUrl = detail.ImgUrl;
+                result.Contents = detail.Paragraphs;
             }
             return result;
         }

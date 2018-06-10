@@ -4,19 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ViewModel
+namespace ViewModel.Common
 {
-    public class ViewSpotDetailOutput
+    public class DetailDto
     {
+        /// <summary>
+        /// 详情图片路径
+        /// </summary>
+        public string ImgUrl { get; set; }
+
 
         /// <summary>
-        /// 图片地址
+        /// 段落内容
         /// </summary>
-        public string BigImgUrl { get; set; }
-
-        /// <summary>
-        /// 内容
-        /// </summary>
-        public List<string> Contents { get; set; }
+        public List<string> Paragraphs { get; set; }
     }
 }

@@ -13,9 +13,16 @@ using ViewModel.TouristInformation;
 
 namespace BLL
 {
-    public class TouristInformationService
+    public class TouristInformationService : ServiceBase
     {
-        private string imgPath = ResourcePath.TouristInformation;
+        private readonly string _imgPath;
+        private readonly DetailManager _detail;
+
+        public TouristInformationService()
+        {
+            _imgPath = ResourcePath.TouristInformation;
+            _detail = new DetailManager(ModularType.TouristInformation);
+        }
 
         /// <summary>
         /// 添加旅游信息
@@ -28,10 +35,10 @@ namespace BLL
                 var information = new TouristInformation
                 {
                     //Distance = input.Distance,
-                    ImgUrl =Path.Combine(imgPath,input.ImgUrl),
-                    Position=input.Position,
-                    Latitude=input.Latitude,
-                    Longitude=input.Longitude,
+                    ImgUrl =PathCombine(_imgPath, input.SmallImgUrl),
+                    Position = input.Position,
+                    Latitude = input.Latitude,
+                    Longitude = input.Longitude,
                     Name = input.Name,
                     Phone = input.Phone,
                     Price = input.Price,
@@ -41,13 +48,20 @@ namespace BLL
                 db.SaveChanges();
                 if (information.Type == TouristInformationType.Hotel)
                 {
-                    var informationId = information.Id;
-                    var detail = new TouristInformationDetail
+                    //var informationId = information.Id;
+                    //var detail = new TouristInformationDetail
+                    //{
+                    //    InformationId = informationId,
+                    //    Content = input.Content
+                    //};
+                    //db.TouristInformationDetails.Add(detail);
+                    _detail.AddOrEdit(new AddOrEditDetailInput
                     {
-                        InformationId = informationId,
-                        Content = input.Content
-                    };
-                    db.TouristInformationDetails.Add(detail);
+                        Classify = (int)information.Type,
+                        ProjectId = information.Id,
+                        ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                        Paragraphs = input.Contents
+                    }, db);
                     db.SaveChanges();
                 }
 
@@ -65,7 +79,7 @@ namespace BLL
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
                 if (information == null)
                     return;
-                information.ImgUrl = Path.Combine(imgPath,input.ImgUrl);
+                information.ImgUrl = PathCombine(_imgPath, input.SmallImgUrl);
                 information.Position = input.Position;
                 information.Longitude = input.Longitude;
                 information.Latitude = input.Latitude;
@@ -78,20 +92,13 @@ namespace BLL
                 db.SaveChanges();
                 if (information.Type == TouristInformationType.Hotel)
                 {
-                    var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == information.Id);
-                    if (detail == null)
+                    _detail.AddOrEdit(new AddOrEditDetailInput
                     {
-                        db.TouristInformationDetails.Add(new TouristInformationDetail
-                        {
-                            InformationId = information.Id,
-                            Content = input.Content
-                        });
-                    }
-                    else
-                    {
-                        detail.Content = input.Content;
-                        db.Entry(detail).State = EntityState.Modified;
-                    }
+                        Classify = (int)information.Type,
+                        ProjectId = information.Id,
+                        ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                        Paragraphs = input.Contents
+                    }, db);
                     db.SaveChanges();
                 }
             }
@@ -101,10 +108,18 @@ namespace BLL
         {
             using (var db = new RTDbContext())
             {
-               var information= db.TouristInformations.FirstOrDefault();
+                var information = db.TouristInformations.FirstOrDefault();
                 if (information == null) return;
-                var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == information.Id);
-                db.TouristInformationDetails.Remove(detail);
+                //var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == information.Id);
+                //db.TouristInformationDetails.Remove(detail);
+
+                //删除详情
+                _detail.Delete(new GetDetailInput
+                {
+                    Classify = (int)information.Type,
+                    ProjectId = information.Id
+                }, db);
+
                 db.TouristInformations.Remove(information);
                 db.SaveChanges();
             }
@@ -124,7 +139,7 @@ namespace BLL
                 if (information == null) return null;
                 //result.Distance = information.Distance;
                 result.Id = information.Id;
-                result.ImgUrl = information.ImgUrl;
+                result.SmallImgUrl = information.ImgUrl;
                 result.Position = information.Position;
                 result.Longitude = information.Longitude;
                 result.Latitude = information.Latitude;
@@ -134,9 +149,15 @@ namespace BLL
                 result.Type = information.Type;
                 if (result.Type == TouristInformationType.Hotel)
                 {
-                    var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == information.Id);
+                    var detail = _detail.GetDetail(new GetDetailInput
+                    {
+                        Classify = (int)result.Type,
+                        ProjectId = information.Id
+                    }, db);
                     if (detail == null) return result;
-                    result.Content = detail.Content;
+
+                    result.BigImgUrl = detail.ImgUrl;
+                    result.Contents = detail.Paragraphs;
                 }
             }
             return result;
@@ -161,7 +182,7 @@ namespace BLL
                         string distanceDescription = "";
                         if (item.Type == TouristInformationType.Hotel)
                         {
-                            LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, item.Longitude, item.Latitude);
+                            distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, item.Longitude, item.Latitude);
                             if (distance > 1000)
                             {
                                 distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
@@ -176,7 +197,7 @@ namespace BLL
                         {
                             Id = item.Id,
                             //Distance = item.Distance,
-                            ImgUrl = item.ImgUrl,
+                            SmallImgUrl = item.ImgUrl,
                             Name = item.Name,
                             Phone = item.Phone,
                             Price = item.Price,
@@ -185,9 +206,9 @@ namespace BLL
                             Position = item.Position,
                         });
                     }
-                    result = result.OrderBy(p=>p.Distance).ToList();
+                    result = result.OrderBy(p => p.Distance).ToList();
                 }
-                
+
             }
             return result;
         }
@@ -220,7 +241,6 @@ namespace BLL
                         distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
                     }
                 }
-                result.ImgUrl = information.ImgUrl;
                 //result.Distance = information.Distance;
                 result.Position = information.Position;
                 result.Distance = distance;
@@ -229,9 +249,16 @@ namespace BLL
                 result.Phone = information.Phone;
                 result.Price = information.Price;
 
-                var detail = db.TouristInformationDetails.FirstOrDefault(p => p.InformationId == input.Id);
-                if (detail == null) return null;
-                result.Content = detail.Content;
+                var detail = _detail.GetDetail(new GetDetailInput
+                {
+                    Classify = (int)information.Type,
+                    ProjectId = information.Id
+                }, db);
+                if (detail == null) return result;
+
+                result.BigImgUrl = detail.ImgUrl;
+                result.Contents = detail.Paragraphs;
+
             }
             return result;
         }

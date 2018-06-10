@@ -19,7 +19,7 @@ namespace ViewModel.TouristInformation
         /// <summary>
         /// 图片地址
         /// </summary>
-        public string ImgUrl { get; set; }
+        public string SmallImgUrl { get; set; }
 
         /// <summary>
         /// 距离值（单位米）

@@ -11,9 +11,18 @@ using ViewModel.WisdomGuide;
 
 namespace BLL
 {
-    public class WisdomGuideService
+    public class WisdomGuideService : ServiceBase
     {
-        private string imgPath = ResourcePath.WisdomGuide;
+        private readonly string _imgPath;
+
+       private readonly DetailManager _detail;
+
+       public WisdomGuideService()
+       {
+           _imgPath = ResourcePath.WisdomGuide;
+           _detail = new DetailManager(ModularType.WisdomGuide);
+       }
+
         /// <summary>
         /// 获取智慧导览Id
         /// </summary>
@@ -37,7 +46,7 @@ namespace BLL
         public void ChangeMap(ChangeMapInput input)
         {
             if (input.ImgUrl == null || input.ImgUrl == "") return;
-            input.ImgUrl = Path.Combine(imgPath, input.ImgUrl);
+            input.ImgUrl = PathCombine(_imgPath, input.ImgUrl);
             //using (TransactionScope tran = new TransactionScope())
             //{
                 using (var db = new RTDbContext())
@@ -77,8 +86,8 @@ namespace BLL
                     int wisdomGuideId = GetWisdomGuideId(db);
                     var model = new WisdomGuideViewSpot
                     {
-                        Content = input.Content,
-                        ImgUrl = Path.Combine(imgPath,input.ImgUrl),
+                        //Content = input.Content,
+                        ImgUrl = PathCombine(_imgPath,input.SmallImgUrl),
                         //ViewSpotDescribe = input.ViewSpotDescribe,
                         Position=input.Position,
                         Longitude=input.Longitude,
@@ -88,6 +97,15 @@ namespace BLL
                     };
                     db.WisdomGuideViewSpots.Add(model);
                     db.SaveChanges();
+
+
+                    _detail.AddOrEdit(new AddOrEditDetailInput
+                    {
+                        ProjectId = model.Id,
+                        ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                        Paragraphs = input.Contents
+                    }, db);
+
                     int ViewSpotId = model.Id;
                     if (input.VideoList != null && input.VideoList.Count != 0)
                     {
@@ -95,7 +113,7 @@ namespace BLL
                         {
                             db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                             {
-                                ImgUrl =Path.Combine(imgPath,item.ImgUrl),
+                                ImgUrl =PathCombine(_imgPath,item.ImgUrl),
                                 VideoName = item.VideoName,
                                 VideoUrl = item.VideoUrl,
                                 WisdomGuideViewSpotId = ViewSpotId
@@ -121,8 +139,7 @@ namespace BLL
                 var model = db.WisdomGuideViewSpots.FirstOrDefault(p => p.Id == input.Id);
                 if (model == null) return;
 
-                model.Content = input.Content;
-                model.ImgUrl = Path.Combine(imgPath, input.ImgUrl);
+                model.ImgUrl = PathCombine(_imgPath, input.SmallImgUrl);
                 //model.ViewSpotDescribe = input.ViewSpotDescribe;
                 model.Position = input.Position;
                 model.Longitude = input.Longitude;
@@ -133,7 +150,14 @@ namespace BLL
 
                 int ViewSpotId = model.Id;
 
-                var list = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == ViewSpotId)?.ToList();
+                _detail.AddOrEdit(new AddOrEditDetailInput
+                {
+                    ProjectId = model.Id,
+                    ImgUrl = PathCombine(_imgPath, input.BigImgUrl),
+                    Paragraphs = input.Contents
+                }, db);
+
+                var list = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == ViewSpotId).ToList();
                 if (list != null && list.Count() != 0)
                 {
                     for (int i = 0; i < list.Count; i++)
@@ -148,7 +172,7 @@ namespace BLL
                     {
                         db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
-                            ImgUrl = Path.Combine(imgPath, item.ImgUrl),
+                            ImgUrl = PathCombine(_imgPath, item.ImgUrl),
                             VideoName = item.VideoName,
                             VideoUrl = item.VideoUrl,
                             WisdomGuideViewSpotId = ViewSpotId
@@ -176,15 +200,26 @@ namespace BLL
                 var viewSpot = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewSpot == null) return null;
                 result.Id = viewSpot.Id;
-                result.Content = viewSpot.Content;
-                result.ImgUrl = viewSpot.ImgUrl;
+                result.SmallImgUrl = viewSpot.ImgUrl;
+                //result.Content = viewSpot.Content;
+                //result.ImgUrl = viewSpot.ImgUrl;
                 //result.ViewSpotDescribe = viewSpot.ViewSpotDescribe;
                 result.Position = viewSpot.Position;
                 result.Longitude = viewSpot.Longitude;
                 result.Latitude = viewSpot.Latitude;
                 result.ViewSpotName = viewSpot.ViewSpotName;
                 result.WisdomGuideId = viewSpot.WisdomGuideId;
-                var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewSpot.Id)?.ToList();
+
+                var detail = _detail.GetDetail(new GetDetailInput
+                {
+                    ProjectId = viewSpot.Id
+                }, db);
+                if (detail == null) return result;
+
+                result.BigImgUrl = detail.ImgUrl;
+                result.Contents = detail.Paragraphs;
+
+                var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewSpot.Id).ToList();
                 if (videoList != null && videoList.Count != 0)
                 {
                     result.VideoList = new List<ViewSpotVideoDto>();
@@ -240,7 +275,7 @@ namespace BLL
                 if (map != null) result.MapImgUrl = map.ImgUrl;
 
                 result.HasMoreView = false;
-                var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id)?.ToList();
+                var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id).ToList();
                 if (videoList != null && videoList.Count != 0)
                 {
                     var video = videoList.FirstOrDefault();
@@ -267,8 +302,15 @@ namespace BLL
             {
                 var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewPort == null) return null;
-                result.Content = viewPort.Content;
-                result.ImgUrl = viewPort.ImgUrl;
+
+                var detail = _detail.GetDetail(new GetDetailInput
+                {
+                    ProjectId = viewPort.Id
+                }, db);
+                if (detail == null) return result;
+
+                result.BigImgUrl = detail.ImgUrl;
+                result.Contents = detail.Paragraphs;
             }
             return result;
         }
@@ -285,7 +327,7 @@ namespace BLL
                 var viewPort = db.WisdomGuideViewSpots.FirstOrDefault(p => p.ViewSpotName == input.Parameter);
                 if (viewPort == null) return result;
 
-                var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id)?.ToList();
+                var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id).ToList();
                 if (videoList != null && videoList.Count != 0)
                 {
                     videoList.ForEach(item =>

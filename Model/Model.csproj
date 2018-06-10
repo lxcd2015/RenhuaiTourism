@@ -49,10 +49,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Data\Detail.cs" />
+    <Compile Include="Data\DetailParagraph.cs" />
     <Compile Include="Data\HomePage.cs" />
     <Compile Include="Data\Introduce.cs" />
     <Compile Include="Data\Message.cs" />
     <Compile Include="Data\MessageType.cs" />
+    <Compile Include="Data\ModularType.cs" />
     <Compile Include="Data\TouristInformation.cs" />
     <Compile Include="Data\TouristInformationDetail.cs" />
     <Compile Include="Data\TouristInformationType.cs" />
@@ -82,6 +85,10 @@
     <Compile Include="Migrations\201806091220257_Update5.Designer.cs">
       <DependentUpon>201806091220257_Update5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201806100515087_Update6.cs" />
+    <Compile Include="Migrations\201806100515087_Update6.Designer.cs">
+      <DependentUpon>201806100515087_Update6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -104,6 +111,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201806091220257_Update5.resx">
       <DependentUpon>201806091220257_Update5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201806100515087_Update6.resx">
+      <DependentUpon>201806100515087_Update6.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

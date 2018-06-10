@@ -22,7 +22,9 @@ namespace Model
         public DbSet<WisdomGuideViewSpotVideo> WisdomGuideViewSpotVideos { get; set; }
         public DbSet<TouristRoute> TouristRoutes { get; set; }
         public DbSet<TouristInformation> TouristInformations { get; set; }
-        public DbSet<TouristInformationDetail> TouristInformationDetails { get; set; }
+        //public DbSet<TouristInformationDetail> TouristInformationDetails { get; set; }
+        public DbSet<Detail> Details { get; set; }
+        public DbSet<DetailParagraph> DetailParagraphs { get; set; }
         
     }
 }

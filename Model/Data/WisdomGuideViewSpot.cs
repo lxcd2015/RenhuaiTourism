@@ -42,9 +42,9 @@ namespace Model.Data
         /// </summary>
         public string ImgUrl { get; set; }
 
-        /// <summary>
-        /// 内容
-        /// </summary>
-        public string Content { get; set; }
+        ///// <summary>
+        ///// 内容
+        ///// </summary>
+        //public string Content { get; set; }
     }
 }

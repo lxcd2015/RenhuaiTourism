@@ -16,7 +16,7 @@ namespace ViewModel.TouristInformation
         /// <summary>
         /// 图片地址
         /// </summary>
-        public string ImgUrl { get; set; }
+        public string BigImgUrl { get; set; }
 
         /// <summary>
         /// 距离
@@ -46,6 +46,6 @@ namespace ViewModel.TouristInformation
         /// <summary>
         /// 详情
         /// </summary>
-        public string Content { get; set; }
+        public List<string> Contents { get; set; }
     }
 }

@@ -12,7 +12,7 @@ namespace ViewModel.TouristInformation
         public int Id { get; set; }
 
         /// <summary>
-        /// 旅游信息类型（1：酒店；2：餐饮；3：特产；4：旅行社；5：车辆服务；6：旅游购物）
+        /// 旅游信息类型（1：酒店；2：餐饮；3：特产；4：旅行社；5：车辆服务；6：旅游购物；7：酒庄）
         /// </summary>
         public TouristInformationType Type { get; set; }
 

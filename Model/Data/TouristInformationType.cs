@@ -32,5 +32,9 @@ namespace Model.Data
         /// 旅游购物
         /// </summary>
         Shopping=6,
+        /// <summary>
+        /// 酒庄
+        /// </summary>
+        Winery=7
     }
 }

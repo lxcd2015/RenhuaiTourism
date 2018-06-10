@@ -57,5 +57,30 @@ namespace ViewModel.WisdomGuide
         /// 其中一个视频信息
         /// </summary>
         public ViewSpotVideoDto FirstVideo { get; set; }
+
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public double Longitude { get; set; }
+
+        /// <summary>
+        /// 维度
+        /// </summary>
+        public double Latitude { get; set; }
+
+        /// <summary>
+        /// 大图地址
+        /// </summary>
+        public string BigImgUrl { get; set; }
+
+        /// <summary>
+        /// 内容
+        /// </summary>
+        public List<string> Contents { get; set; }
+
+        /// <summary>
+        /// 视频列表
+        /// </summary>
+        public List<ViewSpotVideoDto> VoiceList { get; set; }
     }
 }

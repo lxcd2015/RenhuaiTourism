@@ -17,10 +17,12 @@ namespace BLL
     public class TouristRouteService : ServiceBase
     {
         private readonly string _imgPath;
+        private readonly DetailManager _detail;
 
         public TouristRouteService()
         {
             _imgPath = ResourcePath.TouristRoute;
+            _detail = new DetailManager(ModularType.TouristRoute);
         }
 
         /// <summary>
@@ -31,13 +33,22 @@ namespace BLL
         {
             var route = new TouristRoute
             {
-                Content = input.Content,
+                NeedDays=input.NeedDays,
+                RouteName=input.RouteName,
                 ImgUrl = HttpPathCombine(_imgPath, input.ImgUrl)
             };
 
             using (var db = new RTDbContext())
             {
                 db.TouristRoutes.Add(route);
+
+                _detail.AddOrEdit(new AddOrEditDetailInput
+                {
+                    ProjectId = route.Id,
+                    ImgUrl = HttpPathCombine(_imgPath, input.ImgUrl),
+                    Paragraphs = input.Contents
+                }, db);
+
                 db.SaveChanges();
             }
         }
@@ -54,8 +65,18 @@ namespace BLL
                 if (routes == null)
                     throw new RTException("所选数据不存在");
                 routes.ImgUrl = HttpPathCombine(_imgPath, input.ImgUrl);
-                routes.Content = input.Content;
+                routes.NeedDays = input.NeedDays;
+                routes.RouteName = input.RouteName;
+                //routes.Content = input.Content;
                 db.Entry(routes).State = EntityState.Modified;
+
+                _detail.AddOrEdit(new AddOrEditDetailInput
+                {
+                    ProjectId = routes.Id,
+                    ImgUrl = HttpPathCombine(_imgPath, input.ImgUrl),
+                    Paragraphs = input.Contents
+                }, db);
+
                 db.SaveChanges();
             }
         }
@@ -77,12 +98,13 @@ namespace BLL
                         result.Add(new TouristRouteForView
                         {
                             Id = item.Id,
-                            Content = item.Content,
+                            NeedDays = item.NeedDays,
+                            RouteName = item.RouteName,
                             ImgUrl = item.ImgUrl
                         });
                     }
+                    result = result.OrderBy(p => p.NeedDays).ToList();
                 }
-
             }
             return result;
         }
@@ -118,8 +140,15 @@ namespace BLL
                     throw new RTException("所选数据不存在");
                 result.Id = route.Id;
                 result.ImgUrl = route.ImgUrl;
-                result.Content = route.Content;
+                result.NeedDays = route.NeedDays;
+                result.RouteName = route.RouteName;
 
+                var detail = _detail.GetDetail(new GetDetailInput
+                {
+                    ProjectId = route.Id
+                }, db);
+                if (detail == null) return result;
+                result.Contents = detail.Paragraphs;
             }
             return result;
         }

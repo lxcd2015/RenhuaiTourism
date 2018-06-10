@@ -47,7 +47,7 @@ namespace BLL
                 };
                 db.TouristInformations.Add(information);
                 db.SaveChanges();
-                if (information.Type == TouristInformationType.Hotel)
+                if (information.Type == TouristInformationType.Hotel|| information.Type == TouristInformationType.Winery)
                 {
                     //var informationId = information.Id;
                     //var detail = new TouristInformationDetail
@@ -65,7 +65,6 @@ namespace BLL
                     }, db);
                     db.SaveChanges();
                 }
-
             }
         }
 
@@ -91,7 +90,7 @@ namespace BLL
                 information.Type = input.Type;
                 db.Entry(information).State = EntityState.Modified;
                 db.SaveChanges();
-                if (information.Type == TouristInformationType.Hotel)
+                if (information.Type == TouristInformationType.Hotel|| information.Type == TouristInformationType.Winery)
                 {
                     _detail.AddOrEdit(new AddOrEditDetailInput
                     {
@@ -150,7 +149,7 @@ namespace BLL
                 result.Phone = information.Phone;
                 result.Price = information.Price;
                 result.Type = information.Type;
-                if (result.Type == TouristInformationType.Hotel)
+                if (result.Type == TouristInformationType.Hotel|| information.Type == TouristInformationType.Winery)
                 {
                     var detail = _detail.GetDetail(new GetDetailInput
                     {
@@ -183,16 +182,16 @@ namespace BLL
                     {
                         double distance = 0;
                         string distanceDescription = "";
-                        if (item.Type == TouristInformationType.Hotel)
+                        if (item.Type == TouristInformationType.Hotel|| item.Type == TouristInformationType.Winery)
                         {
                             distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, item.Longitude, item.Latitude);
                             if (distance > 1000)
                             {
-                                distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                                distanceDescription = string.Format("距我{0}km", (distance / 1000).ToString("f2"));
                             }
                             else
                             {
-                                distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                                distanceDescription = string.Format("距我{0}m", distance.ToString("f0"));
                             }
                         }
 
@@ -229,21 +228,21 @@ namespace BLL
                 var information = db.TouristInformations.FirstOrDefault(p => p.Id == input.Id);
                 if (information == null)
                     throw new RTException("所选数据不存在");
-                if (information.Type != TouristInformationType.Hotel)
+                if (information.Type != TouristInformationType.Hotel&& information.Type != TouristInformationType.Winery)
                     throw new RTException("酒店数据，才有详细信息");
 
                 double distance = 0;
                 string distanceDescription = "";
-                if (information.Type == TouristInformationType.Hotel)
+                if (information.Type == TouristInformationType.Hotel|| information.Type == TouristInformationType.Winery)
                 {
                     distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, information.Longitude, information.Latitude);
                     if (distance > 1000)
                     {
-                        distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                        distanceDescription = string.Format("距我{0}km", (distance / 1000).ToString("f2"));
                     }
                     else
                     {
-                        distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                        distanceDescription = string.Format("距我{0}m", distance.ToString("f0"));
                     }
                 }
                 //result.Distance = information.Distance;

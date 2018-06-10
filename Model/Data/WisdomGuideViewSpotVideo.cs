@@ -18,9 +18,9 @@ namespace Model.Data
         public int WisdomGuideViewSpotId{get;set;}
 
         /// <summary>
-        /// 视频名称
+        /// 音频名称
         /// </summary>
-        public string VideoName { get; set; }
+        public string VoiceName { get; set; }
 
         /// <summary>
         /// 视频封面图片路径
@@ -28,8 +28,8 @@ namespace Model.Data
         public string ImgUrl { get; set; }
 
         /// <summary>
-        /// 视频播放地址
+        /// 音频播放地址
         /// </summary>
-        public string VideoUrl { get; set; }
+        public string VoiceUrl { get; set; }
     }
 }

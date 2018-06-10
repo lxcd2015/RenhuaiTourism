@@ -52,12 +52,12 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public GeneralResult GetComplaintList()
+        public GeneralResult GetComplaintList(DateTimeCondition input)
         {
             var result = new GeneralResult();
             try
             {
-                result.Data= bll.GetComplaintList();
+                result.Data= bll.GetComplaintList(input);
                 result.State = 0;
                 result.Msg = "操作成功";
             }
@@ -77,12 +77,12 @@ namespace WebApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpPost]
-        public GeneralResult GetAdviseList()
+        public GeneralResult GetAdviseList(DateTimeCondition input)
         {
             var result = new GeneralResult();
             try
             {
-                result.Data= bll.GetAdviseList();
+                result.Data= bll.GetAdviseList(input);
                 result.State = 0;
                 result.Msg = "操作成功";
             }

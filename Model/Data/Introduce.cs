@@ -17,6 +17,11 @@ namespace Model.Data
         /// </summary>
         public string Title { get; set; }
 
+        /// <summary>
+        /// 视频地址
+        /// </summary>
+        public string VideoUrl { get; set; }
+
         ///// <summary>
         ///// 图片
         ///// </summary>

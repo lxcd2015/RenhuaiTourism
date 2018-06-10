@@ -63,6 +63,6 @@ namespace ViewModel.WisdomGuide
         /// <summary>
         /// 视频列表
         /// </summary>
-        public List<ViewSpotVideoDto> VideoList { get; set; }
+        public List<ViewSpotVideoDto> VoiceList { get; set; }
     }
 }

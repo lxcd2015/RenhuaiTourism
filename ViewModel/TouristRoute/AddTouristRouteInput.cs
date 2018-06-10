@@ -12,6 +12,16 @@ namespace ViewModel.TouristRoute
     public class AddOrEditTouristRouteInput
     {
         public int? Id { get; set; }
+        
+        /// <summary>
+        /// 线路名称
+        /// </summary>
+        public string RouteName { get; set; }
+
+        /// <summary>
+        /// 所需天数
+        /// </summary>
+        public int NeedDays { get; set; }
 
         /// <summary>
         /// 图片地址
@@ -21,6 +31,6 @@ namespace ViewModel.TouristRoute
         /// <summary>
         /// 描述信息
         /// </summary>
-        public string Content { get; set; }
+        public List<string> Contents { get; set; }
     }
 }

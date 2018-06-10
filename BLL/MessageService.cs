@@ -36,12 +36,12 @@ namespace BLL
         /// 获取投诉列表
         /// </summary>
         /// <returns></returns>
-        public List<MessageForView> GetComplaintList()
+        public List<MessageForView> GetComplaintList(DateTimeCondition input)
         {
             var result = new List<MessageForView>();
             using (var db = new RTDbContext())
             {
-                var list= db.Messages.Where(p => p.MessageType == MessageType.Complaint);
+                var list = db.Messages.Where(p => p.MessageType == MessageType.Complaint && p.MessageTime >= input.StartTime && p.MessageTime <= input.EndTime);
                 if (list != null && list.Count() != 0)
                 {
                     foreach (var item in list)
@@ -61,12 +61,12 @@ namespace BLL
         /// 获取建议列表
         /// </summary>
         /// <returns></returns>
-        public List<MessageForView> GetAdviseList()
+        public List<MessageForView> GetAdviseList(DateTimeCondition input)
         {
             var result = new List<MessageForView>();
             using (var db = new RTDbContext())
             {
-                var list = db.Messages.Where(p => p.MessageType == MessageType.Advise);
+                var list = db.Messages.Where(p => p.MessageType == MessageType.Advise && p.MessageTime >= input.StartTime && p.MessageTime <= input.EndTime);
                 if (list != null && list.Count() != 0)
                 {
                     foreach (var item in list)

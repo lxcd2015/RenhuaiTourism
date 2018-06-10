@@ -110,15 +110,15 @@ namespace BLL
                 }, db);
 
                 int ViewSpotId = model.Id;
-                if (input.VideoList != null && input.VideoList.Count != 0)
+                if (input.VoiceList != null && input.VoiceList.Count != 0)
                 {
-                    input.VideoList.ForEach(item =>
+                    input.VoiceList.ForEach(item =>
                     {
                         db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
                             ImgUrl = HttpPathCombine(_resourcePath, item.ImgUrl),
-                            VideoName = item.VideoName,
-                            VideoUrl = HttpPathCombine(_resourcePath, item.VideoUrl),
+                            VoiceName = item.VoiceName,
+                            VoiceUrl = HttpPathCombine(_resourcePath, item.VoiceUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });
@@ -171,15 +171,15 @@ namespace BLL
                     }
                 }
 
-                if (input.VideoList != null && input.VideoList.Count != 0)
+                if (input.VoiceList != null && input.VoiceList.Count != 0)
                 {
-                    input.VideoList.ForEach(item =>
+                    input.VoiceList.ForEach(item =>
                     {
                         db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
                             ImgUrl = HttpPathCombine(_resourcePath, item.ImgUrl),
-                            VideoName = item.VideoName,
-                            VideoUrl = HttpPathCombine(_resourcePath, item.VideoUrl),
+                            VoiceName = item.VoiceName,
+                            VoiceUrl = HttpPathCombine(_resourcePath, item.VoiceUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });
@@ -230,14 +230,14 @@ namespace BLL
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewSpot.Id).ToList();
                 if (videoList != null && videoList.Count != 0)
                 {
-                    result.VideoList = new List<ViewSpotVideoDto>();
+                    result.VoiceList = new List<ViewSpotVideoDto>();
                     videoList.ForEach(item =>
                     {
-                        result.VideoList.Add(new ViewSpotVideoDto
+                        result.VoiceList.Add(new ViewSpotVideoDto
                         {
                             ImgUrl = item.ImgUrl,
-                            VideoName = item.VideoName,
-                            VideoUrl = item.VideoUrl,
+                            VoiceName = item.VoiceName,
+                            VoiceUrl = item.VoiceUrl,
                             WisdomGuideViewSpotId = item.WisdomGuideViewSpotId
                         });
                     });
@@ -267,11 +267,11 @@ namespace BLL
                 distance = LongitudeAndLatitudeToDistance.GetDistance(input.Longitude, input.Latitude, viewPort.Longitude, viewPort.Latitude);
                 if (distance > 1000)
                 {
-                    distanceDescription = string.Format("距我{0}千米", (distance / 1000).ToString("f2"));
+                    distanceDescription = string.Format("距我{0}km", (distance / 1000).ToString("f2"));
                 }
                 else
                 {
-                    distanceDescription = string.Format("距我{0}米", distance.ToString("f0"));
+                    distanceDescription = string.Format("距我{0}m", distance.ToString("f0"));
                 }
                 #endregion
 
@@ -281,10 +281,23 @@ namespace BLL
                 result.Phone = viewPort.Phone;
                 result.Distance = distance;
                 result.ImgUrl = viewPort.ImgUrl;
+                result.Longitude = viewPort.Longitude;
+                result.Latitude = viewPort.Latitude;
                 result.DistanceDescription = distanceDescription;
 
                 var map = db.WisdomGuideMaps.FirstOrDefault(p => p.WisdomGuideId == viewPort.WisdomGuideId);
                 if (map != null) result.MapImgUrl = map.ImgUrl;
+
+                #region 详情
+                var detail = _detail.GetDetail(new GetDetailInput
+                {
+                    ProjectId = viewPort.Id
+                }, db);
+                if (detail == null) return result;
+
+                result.BigImgUrl = detail.ImgUrl;
+                result.Contents = detail.Paragraphs;
+                #endregion
 
                 result.HasMoreView = false;
                 var videoList = db.WisdomGuideViewSpotVideos.Where(p => p.WisdomGuideViewSpotId == viewPort.Id).ToList();
@@ -293,9 +306,51 @@ namespace BLL
                     var video = videoList.FirstOrDefault();
                     result.FirstVideo = new ViewSpotVideoDto();
                     result.FirstVideo.ImgUrl = video.ImgUrl;
-                    result.FirstVideo.VideoUrl = video.VideoUrl;
-                    result.FirstVideo.VideoName = video.VideoName;
-                    if (videoList.Count > 1) result.HasMoreView = true;
+                    result.FirstVideo.VoiceUrl = video.VoiceUrl;
+                    result.FirstVideo.VoiceName = video.VoiceName;
+                    result.FirstVideo.WisdomGuideViewSpotId = video.WisdomGuideViewSpotId;
+                    
+                    if (videoList.Count > 1)
+                    {
+                        result.HasMoreView = true;
+                        result.VoiceList = new List<ViewSpotVideoDto>();
+                        videoList.ForEach(item => {
+                            result.VoiceList.Add(new ViewSpotVideoDto {
+                                ImgUrl=item.ImgUrl,
+                                VoiceName = item.VoiceName,
+                                VoiceUrl = item.VoiceUrl,
+                                WisdomGuideViewSpotId=item.WisdomGuideViewSpotId
+                            });
+                        });
+                    }
+                }
+            }
+            return result;
+        }
+
+        public GetMapInfoOutput GetMapInofo()
+        {
+            var result = new GetMapInfoOutput();
+            using (var db = new RTDbContext())
+            {
+                var wisdom = db.WisdomGuides.FirstOrDefault();
+                if (wisdom == null)
+                    throw new RTException("所选数据不存在");
+                var map = db.WisdomGuideMaps.FirstOrDefault(p => p.WisdomGuideId == wisdom.Id);
+                if (map != null)
+                {
+                    result.ImgUrl = map.ImgUrl;
+                }
+                var spotList = db.WisdomGuideViewSpots.Where(p => p.WisdomGuideId == wisdom.Id);
+                if (spotList != null && spotList.Count() != 0)
+                {
+                    result.ViewSpotList = new List<ViewSpotSimpleInfo>();
+                    spotList.ToList().ForEach(item => {
+                        result.ViewSpotList.Add(new ViewSpotSimpleInfo {
+                            Id=item.Id,
+                            ViewSpotName=item.ViewSpotName
+                        });
+                    });
                 }
             }
             return result;
@@ -351,8 +406,8 @@ namespace BLL
                         result.Add(new ViewSpotVideoDto
                         {
                             ImgUrl = item.ImgUrl,
-                            VideoName = item.VideoName,
-                            VideoUrl = item.VideoUrl,
+                            VoiceName = item.VoiceName,
+                            VoiceUrl = item.VoiceUrl,
                         });
                     });
                 }

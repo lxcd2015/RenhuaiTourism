@@ -22,6 +22,11 @@ namespace ViewModel.Introduce
         public string BigImgUrl { get; set; }
 
         /// <summary>
+        /// 视频地址
+        /// </summary>
+        public string VideoUrl { get; set; }
+
+        /// <summary>
         /// 内容
         /// </summary>
         public List<string> Contents { get; set; }

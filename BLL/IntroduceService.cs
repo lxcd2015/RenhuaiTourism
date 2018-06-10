@@ -36,6 +36,7 @@ namespace BLL
             var model = new Introduce
             {
                 Title = input.Title,
+                VideoUrl=input.VideoUrl
                 //ImgUrl = Path.Combine(imgPath,input.ImgUrl),
                 //Content = input.Content
             };
@@ -54,6 +55,7 @@ namespace BLL
                 else
                 {
                     oldModel.Title = model.Title;
+                    oldModel.VideoUrl = model.VideoUrl;
                     //oldModel.ImgUrl = model.ImgUrl;
                     //oldModel.Content = model.Content;
                     db.Entry(oldModel).State = EntityState.Modified;
@@ -91,6 +93,7 @@ namespace BLL
                 if (data == null)
                     throw new RTException("数据不存在，请联系管理员");
                 result.Title = data.Title;
+                result.VideoUrl = data.VideoUrl;
                 //result.ImgUrl = data.ImgUrl;
                 //result.Content = data.Content;
 

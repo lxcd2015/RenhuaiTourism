@@ -176,7 +176,7 @@ namespace BLL
                         {
                             ImgUrl = PathCombine(_resourcePath, item.ImgUrl),
                             VideoName = item.VideoName,
-                            VideoUrl = item.VideoUrl,
+                            VideoUrl = PathCombine(_resourcePath, item.VideoUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });

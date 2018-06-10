@@ -91,6 +91,7 @@ namespace WebApi.Controllers
         /// 根据Id删除旅游线路
         /// </summary>
         /// <param name="input"></param>
+        [HttpPost]
         public GeneralResult Delete(RTEntity<int> input) {
             var result = new GeneralResult();
             try

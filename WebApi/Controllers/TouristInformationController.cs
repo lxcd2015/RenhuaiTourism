@@ -73,6 +73,7 @@ namespace WebApi.Controllers
         /// 删除旅游信息
         /// </summary>
         /// <param name="input"></param>
+        [HttpPost]
         public GeneralResult Delete(RTEntity<int> input)
         {
             var result = new GeneralResult();

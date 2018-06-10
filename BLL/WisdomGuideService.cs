@@ -15,13 +15,13 @@ namespace BLL
     {
         private readonly string _resourcePath;
 
-       private readonly DetailManager _detail;
+        private readonly DetailManager _detail;
 
-       public WisdomGuideService()
-       {
+        public WisdomGuideService()
+        {
             _resourcePath = ResourcePath.WisdomGuide;
-           _detail = new DetailManager(ModularType.WisdomGuide);
-       }
+            _detail = new DetailManager(ModularType.WisdomGuide);
+        }
 
         /// <summary>
         /// 获取智慧导览Id
@@ -49,27 +49,27 @@ namespace BLL
             input.ImgUrl = PathCombine(_resourcePath, input.ImgUrl);
             //using (TransactionScope tran = new TransactionScope())
             //{
-                using (var db = new RTDbContext())
-                {
-                    int wisdomGuideId = GetWisdomGuideId(db);
+            using (var db = new RTDbContext())
+            {
+                int wisdomGuideId = GetWisdomGuideId(db);
 
-                    var map = db.WisdomGuideMaps.FirstOrDefault();
-                    if (map != null)
-                    {
-                        map.WisdomGuideId = wisdomGuideId;
-                        map.ImgUrl =input.ImgUrl;
-                        db.Entry(map).State = EntityState.Modified;
-                    }
-                    else
-                    {
-                        db.WisdomGuideMaps.Add(new WisdomGuideMap
-                        {
-                            WisdomGuideId = wisdomGuideId,
-                            ImgUrl = input.ImgUrl
-                        });
-                    }
-                    db.SaveChanges();
+                var map = db.WisdomGuideMaps.FirstOrDefault();
+                if (map != null)
+                {
+                    map.WisdomGuideId = wisdomGuideId;
+                    map.ImgUrl = input.ImgUrl;
+                    db.Entry(map).State = EntityState.Modified;
                 }
+                else
+                {
+                    db.WisdomGuideMaps.Add(new WisdomGuideMap
+                    {
+                        WisdomGuideId = wisdomGuideId,
+                        ImgUrl = input.ImgUrl
+                    });
+                }
+                db.SaveChanges();
+            }
             //    tran.Complete();
             //}
         }
@@ -81,49 +81,49 @@ namespace BLL
         {
             //using (TransactionScope tran = new TransactionScope())
             //{
-                using (var db = new RTDbContext())
+            using (var db = new RTDbContext())
+            {
+                int wisdomGuideId = GetWisdomGuideId(db);
+                var model = new WisdomGuideViewSpot
                 {
-                    int wisdomGuideId = GetWisdomGuideId(db);
-                    var model = new WisdomGuideViewSpot
-                    {
-                        //Content = input.Content,
-                        ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl),
-                        //ViewSpotDescribe = input.ViewSpotDescribe,
-                        Position=input.Position,
-                        Phone=input.Phone,
-                        Longitude =input.Longitude,
-                        Latitude=input.Latitude,
-                        ViewSpotName = input.ViewSpotName,
-                        WisdomGuideId = wisdomGuideId
-                    };
-                    db.WisdomGuideViewSpots.Add(model);
-                    db.SaveChanges();
+                    //Content = input.Content,
+                    ImgUrl = PathCombine(_resourcePath, input.SmallImgUrl),
+                    //ViewSpotDescribe = input.ViewSpotDescribe,
+                    Position = input.Position,
+                    Phone = input.Phone,
+                    Longitude = input.Longitude,
+                    Latitude = input.Latitude,
+                    ViewSpotName = input.ViewSpotName,
+                    WisdomGuideId = wisdomGuideId
+                };
+                db.WisdomGuideViewSpots.Add(model);
+                db.SaveChanges();
 
 
-                    _detail.AddOrEdit(new AddOrEditDetailInput
-                    {
-                        ProjectId = model.Id,
-                        ImgUrl = PathCombine(_resourcePath, input.BigImgUrl),
-                        Paragraphs = input.Contents
-                    }, db);
+                _detail.AddOrEdit(new AddOrEditDetailInput
+                {
+                    ProjectId = model.Id,
+                    ImgUrl = PathCombine(_resourcePath, input.BigImgUrl),
+                    Paragraphs = input.Contents
+                }, db);
 
-                    int ViewSpotId = model.Id;
-                    if (input.VideoList != null && input.VideoList.Count != 0)
+                int ViewSpotId = model.Id;
+                if (input.VideoList != null && input.VideoList.Count != 0)
+                {
+                    input.VideoList.ForEach(item =>
                     {
-                        input.VideoList.ForEach(item =>
+                        db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
                         {
-                            db.WisdomGuideViewSpotVideos.Add(new WisdomGuideViewSpotVideo
-                            {
-                                ImgUrl =PathCombine(_resourcePath, item.ImgUrl),
-                                VideoName = item.VideoName,
-                                VideoUrl = PathCombine(_resourcePath, item.VideoUrl),
-                                WisdomGuideViewSpotId = ViewSpotId
-                            });
+                            ImgUrl = PathCombine(_resourcePath, item.ImgUrl),
+                            VideoName = item.VideoName,
+                            VideoUrl = PathCombine(_resourcePath, item.VideoUrl),
+                            WisdomGuideViewSpotId = ViewSpotId
                         });
-                    }
-                    db.SaveChanges();
+                    });
                 }
-                //tran.Complete();
+                db.SaveChanges();
+            }
+            //tran.Complete();
             //}
         }
 

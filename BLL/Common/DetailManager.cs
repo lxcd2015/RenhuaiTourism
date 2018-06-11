@@ -66,7 +66,7 @@ namespace BLL.Common
                 int i = 0;
                 input.Paragraphs.ForEach(item =>
                 {
-                    i = i++;
+                    i += 1;
                     db.DetailParagraphs.Add(new DetailParagraph
                     {
                         DetailId = detailId,

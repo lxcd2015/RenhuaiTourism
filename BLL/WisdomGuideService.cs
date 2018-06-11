@@ -15,12 +15,14 @@ namespace BLL
     public class WisdomGuideService : ServiceBase
     {
         private readonly string _resourcePath;
+        private readonly string _voicePath;
 
         private readonly DetailManager _detail;
 
         public WisdomGuideService()
         {
             _resourcePath = ResourcePath.WisdomGuide;
+            _voicePath = ResourcePath.Voice;
             _detail = new DetailManager(ModularType.WisdomGuide);
         }
 
@@ -118,7 +120,7 @@ namespace BLL
                         {
                             ImgUrl = HttpPathCombine(_resourcePath, item.ImgUrl),
                             VoiceName = item.VoiceName,
-                            VoiceUrl = HttpPathCombine(_resourcePath, item.VoiceUrl),
+                            VoiceUrl = HttpPathCombine(_voicePath, item.VoiceUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });
@@ -179,7 +181,7 @@ namespace BLL
                         {
                             ImgUrl = HttpPathCombine(_resourcePath, item.ImgUrl),
                             VoiceName = item.VoiceName,
-                            VoiceUrl = HttpPathCombine(_resourcePath, item.VoiceUrl),
+                            VoiceUrl = HttpPathCombine(_voicePath, item.VoiceUrl),
                             WisdomGuideViewSpotId = ViewSpotId
                         });
                     });

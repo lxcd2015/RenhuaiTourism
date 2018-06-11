@@ -10,6 +10,7 @@ namespace BLL.Common
     public class ServiceBase
     {
         private const string HttpProtocol = "http://";
+        private const string HttpsProtocol = "https://";
 
         protected string HttpPathCombine(string path1,string path2)
         {
@@ -17,6 +18,7 @@ namespace BLL.Common
             if (path2 == null || path2 == "") return path2;
 
             if (path2.IndexOf(HttpProtocol) >-1) return path2;
+            if (path2.IndexOf(HttpsProtocol) > -1) return path2;
 
             var path= Path.Combine(path1, path2);
 

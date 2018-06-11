@@ -44,5 +44,13 @@ namespace ViewModel.Common
                 return Path.Combine(ConfigurationInfo.GetResourceAddress, AddressConsts.WisdomGuide);
             }
         }
+
+        public static string Voice
+        {
+            get
+            {
+                return Path.Combine(ConfigurationInfo.GetResourceAddress, AddressConsts.Voice);
+            }
+        }
     }
 }

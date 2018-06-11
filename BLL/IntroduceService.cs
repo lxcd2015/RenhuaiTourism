@@ -36,7 +36,8 @@ namespace BLL
             var model = new Introduce
             {
                 Title = input.Title,
-                VideoUrl= HttpPathCombine(_imgPath,input.VideoUrl)
+                //VideoUrl= HttpPathCombine(_imgPath,input.VideoUrl)
+                VideoUrl = input.VideoUrl
                 //ImgUrl = Path.Combine(imgPath,input.ImgUrl),
                 //Content = input.Content
             };

@@ -28,6 +28,11 @@ namespace ViewModel.Common
         /// 智慧导览资源地址
         /// </summary>
         public const string WisdomGuide = "WisdomGuide";
+        /// <summary>
+        /// 音频地址
+        /// </summary>
+        public const string Voice = "Voice";
+
     }
 
 }

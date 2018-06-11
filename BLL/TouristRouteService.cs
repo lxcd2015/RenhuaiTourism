@@ -41,6 +41,7 @@ namespace BLL
             using (var db = new RTDbContext())
             {
                 db.TouristRoutes.Add(route);
+                db.SaveChanges();
 
                 _detail.AddOrEdit(new AddOrEditDetailInput
                 {

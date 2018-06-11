@@ -208,7 +208,10 @@ namespace BLL
                             Position = item.Position,
                         });
                     }
-                    result = result.OrderBy(p => p.Distance).ToList();
+                    if (input.Type == TouristInformationType.Hotel)
+                    {
+                        result = result.OrderBy(p => p.Distance).ToList();
+                    }
                 }
 
             }
